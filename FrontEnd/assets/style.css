@@ -30,6 +30,10 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	/* centrer sur la page */
+	height: 100vh;
+	/* display: flex;
+	flex-direction: column; */
 }
 ol, ul {
 	list-style: none;
@@ -93,10 +97,15 @@ nav ul {
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+	/* Modif */
+	cursor: pointer;
 }
 
 li:hover {
 	color: #B1663C;
+}
+li.active{
+	font-weight: bold;
 }
 #introduction {
 	display: flex;
@@ -153,36 +162,43 @@ button.active{
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
 }
-
 .gallery img {
 	width: 100%;
-
 }
-#contact {
+#contact,
+#login {
 	width: 50%;
-margin: auto;
+	height: auto;
+	margin: auto;
 }
-#contact > * {
+#login{
+	max-width: 379px;
+}
+#contact,
+#login > * {
 	text-align: center;
 
 }
-#contact h2{
+#contact h2,
+#login h2 {
 	margin-bottom: 20px;
 }
-#contact form {
+#contact form,
+#login form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
-
-#contact input {
+#contact input,
+#login input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+#contact label,
+#login label {
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -190,13 +206,13 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+input[type="submit"] {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
 	margin : 2em auto ;
-	width: 180px;
+	width: 180px!important;
 	text-align: center;
 	border-radius: 60px ;
 }
@@ -204,6 +220,17 @@ input[type="submit"]{
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
 }
 
+.forgotten{
+	display: block;
+	margin: 0 auto;
+	color: #3D3D3D;
+}
+
+#error {
+	text-align: center;
+	margin: 5px 0;
+	color: red;
+}

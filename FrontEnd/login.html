@@ -11,26 +11,45 @@
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
-<header>
-	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
-	<nav>
-		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li>login</li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-		</ul>
-	</nav>
-</header>
-<main>
-</main>
-<footer>
-	<nav>
-		<ul>
-			<li>Mentions Légales</li>
-		</ul>
-	</nav>
-</footer>
+
+	<!-- Bloc du haut avec le titre + la navigation + le logo -->
+	<header>
+		<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
+		<nav>
+			<ul>
+				<li>projets</li>
+				<li>contact</li>
+				<a href="login.html"><li>login</li></a>
+				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			</ul>
+		</nav>
+	</header>
+
+	<!-- Contenu principal de la page -->
+	<main>
+		<section id="login">
+			<h2>Log In</h2>
+			<form action="#" method="post" id="form-login">
+				<label for="mail">E-mail</label>
+				<input type="text" name="mail" id="mail-login">
+				<label for="password">Mot de passe</label>
+				<input type="password" name="password" id="password-login">
+				<input type="submit" value="Se connecter">
+				<span id="error"></span>
+			</form>
+			<a href="#" class="forgotten">Mot de passe oublié</a>
+		</section>
+	</main>
+
+	<!-- Pied de la page -->
+	<footer>
+		<nav>
+			<ul>
+				<li>Mentions Légales</li>
+			</ul>
+		</nav>
+	</footer>
+
 <script src="app.js"></script>
 </body>
 </html>
