@@ -8,9 +8,15 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
+	<!-- Font Awesome -->
+	<script src="https://kit.fontawesome.com/467ca2e1f2.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
+<div class="editing" id="editing-mode-container" aria-hidden="true">
+	<button class="editing-mode-btn">Mode édition</button>
+	<button class="publish-btn">publier les changements</button>
+</div>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 	<nav>
@@ -26,8 +32,10 @@
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
+			<button class="editing" id="btn1" aria-hidden="true">modifier</button>
 		</figure>
 		<article>
+			<button class="editing" id="btn2" aria-hidden="true">modifier</button>
 			<h2>Designer d'espace</h2>
 			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
 			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
@@ -36,6 +44,7 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
+		<button class="editing" id="btn3" aria-hidden="true">modifier</button>
 		<div class="filters">
 			<button class="filter-button" data-category="category1">Tous</button>
 			<button class="filter-button" data-category="category2">Objets</button>

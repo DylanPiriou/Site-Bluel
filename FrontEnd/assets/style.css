@@ -234,3 +234,58 @@ footer nav ul {
 	margin: 5px 0;
 	color: red;
 }
+
+/* Editing mode */
+#editing-mode-container{
+	width: 100%;
+	height: 59px;
+	background: #000;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	gap: 21px;
+}
+.editing-mode-btn,
+.publish-btn,
+#btn1,
+#btn2,
+#btn3{
+	font-family: 'Work Sans';
+}
+.editing-mode-btn{
+	font-size: 16px;
+	background: none;
+	border: none;
+	color: #FFF;
+}
+
+.publish-btn{
+	width: 216px;
+	height: 38px;
+	border-radius: 60px;
+	background: #FFF;
+	font-size: 14px;
+	padding: 0;
+	font-weight: bold;
+}
+
+#btn1,
+#btn2,
+#btn3{
+	background: none;
+	border: none;
+	font-size: 14px;
+}
+
+#btn2{
+	margin-bottom: 19px;
+	display: none;
+}
+
+#btn1{
+	margin: 15px 0 0 57px;
+}
+
+.editing{
+	display: none;
+}

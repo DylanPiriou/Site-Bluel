@@ -61,10 +61,13 @@ window.onload = () => {
   filterByCategory("category1");
 };
 
+// ----------------------------------------- //
+
 // Formulaire login
 const form = document.querySelector("#form-login");
 
 form.addEventListener("submit", (e) => {
+  e.preventDefault();
   const email = document.querySelector("#mail-login");
   const password = document.querySelector("#password-login");
   const error = document.querySelector("#error");
@@ -72,8 +75,6 @@ form.addEventListener("submit", (e) => {
     email: "sophie.bluel@test.tld",
     password: "S0phie",
   };
-  // const { usermail, userpassword } = userLogin;
-  e.preventDefault();
 
   // Logique connexion
   if (email.value === "" || password.value === "") {
@@ -94,7 +95,6 @@ form.addEventListener("submit", (e) => {
       error.textContent = "";
     }, 2000);
   } else {
-    // window.location.href = "index.html";
     // console.log(JSON.stringify({email: email.value, password: password.value}));
     fetch(`http://localhost:5678/api/users/login`, {
       method: "POST",
@@ -104,11 +104,21 @@ form.addEventListener("submit", (e) => {
       },
     })
       .then((res) => res.json())
-      .then((data) => console.log(data.token));
+      .then((data) =>
+        localStorage.setItem("token", JSON.stringify(data.token))
+      );
   }
 });
 
-// Sauvegarder le token dans le localStorage
-// function saveJWT(token) {
-//   localStorage.setItem("token", token);
-// }
+if (JSON.parse(localStorage.getItem("token")) !== null) {
+  //
+} else {
+  // console.log("noooooon !!!!!");
+}
+
+// ).then(() => {
+// .then(() => console.log(JSON.parse(localStorage.getItem('token'))))
+
+// editingBtn.addEventListener('click', () => {
+
+// })
