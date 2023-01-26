@@ -73,7 +73,7 @@ const userLogin = {
   password: "S0phie",
 };
 
-form.addEventListener("submit", (e) => {
+form && form.addEventListener("submit", (e) => {
   e.preventDefault();
   // Logique connexion
   if (email.value === "" || password.value === "") {
@@ -98,7 +98,7 @@ form.addEventListener("submit", (e) => {
   }
 });
 
-// Envoie des logins à l'API via POST & stockage JWT dans localStorage
+// Envoie des logins à l'API via POST
 async function login() {
   const response = await fetch(`http://localhost:5678/api/users/login`, {
     method: "POST",
@@ -111,21 +111,19 @@ async function login() {
     },
   });
   const data = await response.json();
+  // Si on reçoit le JWT alors stockage dans le localStorage
   if (data.token) {
-    localStorage.setItem("token", JSON.stringify(data.token));
-    window.location.href = "index.html";
-    await new Promise(resolve => setTimeout(resolve, 100));
-    showEditing();
-  } else {
-    showNormal();
+    localStorage.setItem("token", data.token);
+    window.location.replace("index.html");
   }
 }
 
-function showEditing() {
-  const editingBar = document.querySelector("aside");
-  editingBar.style.display = "block";
-}
+// S'il y a un JWT alors montrer l'interface éditable
+const token = localStorage.getItem("token")
+token && showEditing()
 
-function showNormal() {
-  // Logique affiche contenu normal
+// Interface éditable
+function showEditing() {
+  const editingBtns = document.querySelectorAll(".editing-btn");
+  editingBtns.forEach((item) => (item.style.display = "block"));
 }
