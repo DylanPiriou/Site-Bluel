@@ -65,17 +65,16 @@ window.onload = () => {
 
 // Formulaire login
 const form = document.querySelector("#form-login");
+const email = document.querySelector("#mail-login");
+const password = document.querySelector("#password-login");
+const error = document.querySelector("#error");
+const userLogin = {
+  email: "sophie.bluel@test.tld",
+  password: "S0phie",
+};
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  const email = document.querySelector("#mail-login");
-  const password = document.querySelector("#password-login");
-  const error = document.querySelector("#error");
-  const userLogin = {
-    email: "sophie.bluel@test.tld",
-    password: "S0phie",
-  };
-
   // Logique connexion
   if (email.value === "" || password.value === "") {
     email.value = "";
@@ -95,30 +94,38 @@ form.addEventListener("submit", (e) => {
       error.textContent = "";
     }, 2000);
   } else {
-    // console.log(JSON.stringify({email: email.value, password: password.value}));
-    fetch(`http://localhost:5678/api/users/login`, {
-      method: "POST",
-      body: JSON.stringify({ email: email.value, password: password.value }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) =>
-        localStorage.setItem("token", JSON.stringify(data.token))
-      );
+    login();
   }
 });
 
-if (JSON.parse(localStorage.getItem("token")) !== null) {
-  //
-} else {
-  // console.log("noooooon !!!!!");
+// Envoie des logins à l'API via POST & stockage JWT dans localStorage
+async function login() {
+  const response = await fetch(`http://localhost:5678/api/users/login`, {
+    method: "POST",
+    body: JSON.stringify({
+      email: email.value,
+      password: password.value,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  if (data.token) {
+    localStorage.setItem("token", JSON.stringify(data.token));
+    window.location.href = "index.html";
+    await new Promise(resolve => setTimeout(resolve, 100));
+    showEditing();
+  } else {
+    showNormal();
+  }
 }
 
-// ).then(() => {
-// .then(() => console.log(JSON.parse(localStorage.getItem('token'))))
+function showEditing() {
+  const editingBar = document.querySelector("aside");
+  editingBar.style.display = "block";
+}
 
-// editingBtn.addEventListener('click', () => {
-
-// })
+function showNormal() {
+  // Logique affiche contenu normal
+}

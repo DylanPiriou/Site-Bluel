@@ -30,10 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	/* centrer sur la page */
 	height: 100vh;
-	/* display: flex;
-	flex-direction: column; */
 }
 ol, ul {
 	list-style: none;
@@ -60,7 +57,7 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
 }
 section {
 	margin: 50px 0
@@ -236,56 +233,56 @@ footer nav ul {
 }
 
 /* Editing mode */
-#editing-mode-container{
+aside{
+	display: none;
+	width: 100%;
+	height: 38px;
+}
+
+.top-editing-box{
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 59px;
-	background: #000;
-	display: none;
+	display: flex;
 	align-items: center;
 	justify-content: center;
 	gap: 21px;
-}
-.editing-mode-btn,
-.publish-btn,
-#btn1,
-#btn2,
-#btn3{
-	font-family: 'Work Sans';
-}
-.editing-mode-btn{
-	font-size: 16px;
-	background: none;
-	border: none;
-	color: #FFF;
+	background: black;
 }
 
-.publish-btn{
+.top-editing-box span{
+	color: #fff;
+}
+
+.top-editing-box button{
+	background: #fff;
 	width: 216px;
 	height: 38px;
 	border-radius: 60px;
-	background: #FFF;
-	font-size: 14px;
-	padding: 0;
-	font-weight: bold;
+	font-family: 'Work Sans';
 }
 
-#btn1,
-#btn2,
-#btn3{
+.editing-btn{
 	background: none;
 	border: none;
+	color: #000;
 	font-size: 14px;
 }
 
-#btn2{
-	margin-bottom: 19px;
-	display: none;
+#intro-btn{
+	padding: 0 0 38px 0;
 }
 
-#btn1{
-	margin: 15px 0 0 57px;
+#picture-btn{
+	position: absolute;
+	left: 278px;
+	padding: 15px 0 0;
 }
 
-.editing{
-	display: none;
+#work-btn{
+	position: absolute;
+	top: 580px;
+	right: 550px;
 }
