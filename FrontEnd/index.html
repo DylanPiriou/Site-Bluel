@@ -19,63 +19,93 @@
     <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
-	
-  <!-- Bloc "editing" en haut de la page -->
-	<aside class="editing-btn" id="editing-container">
-    <div class="top-editing-box">
-      <span>Mode édition</span>
-      <button>publier les changements</button>
+    <!-- Bloc "editing" en haut de la page -->
+    <aside class="editing-btn" id="editing-container">
+      <div class="top-editing-box">
+        <span>Mode édition</span>
+        <button>publier les changements</button>
+      </div>
+    </aside>
+    <!-- Modal d'édition -->
+    <div class="modal-container">
+      <div class="modal-box">
+        <!-- Modal avec la galerie photos -->
+        <div class="modal-manage-work">
+          <i class="fa-solid fa-xmark"></i>
+          <h3 class="modal-title">Galerie photo</h3>
+          <div class="modal-work-grid"></div>
+          <button class="modal-manage-work-btn">Ajouter une photo</button>
+          <span>Supprimer la galerie</span>
+        </div>
+
+        <!-- Modal ajout photos -->
+        <div class="modal-add-work">
+          <i class="fa-sharp fa-solid fa-arrow-left-long"></i>
+          <i class="fa-solid fa-xmark"></i>
+          <h3 class="modal-title">Ajout photo</h3>
+            <form action="POST">
+              <div class="download-box">
+                <div class="download-btn">
+                <input type="file" name="" id="">
+                  <div class="download-btn-content">
+                  <i class="fa-sharp fa-solid fa-plus"></i>
+                  <p>Ajouter photo</p>
+                  </div>
+                </div>
+              <small>jpg, png : 4mo max</small>
+              </div>
+              <div class="title-box">
+              <label for="title">Titre</label>
+              <input type="text" name="title" id="title">
+              </div>
+              <div class="category-box">
+              <label for="category" name="" id="">Catégorie</label>
+              <input type="text" name="" id="">
+              </div>
+            </form>
+          <button class="modal-manage-work-btn">Ajouter une photo</button>
+        </div>
+      </div>
     </div>
-	</aside>
-  <!-- Modal d'édition -->
-  <div class="modal-container">
-    <div class="modal-box">
-      <i class="fa-solid fa-xmark"></i>
-      <h3>Galerie photo</h3>
-      <div class="modal-work-grid"></div>
-      <button class="modal-box-btn">Ajouter une photo</button>
-      <span>Supprimer la galerie</span>
-    </div>
-  </div>
-  
-  <header>
-    <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
-    <nav>
-      <ul>
-        <li>projets</li>
-        <li>contact</li>
-        <a href="login.html"><li>login</li></a>
-        <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section id="introduction">
-      <figure>
-        <img src="./assets/images/sophie-bluel.png" alt="" />
-        <button class="editing-btn" id="picture-btn">modifier</button>
-      </figure>
-      <article>
-        <button class="editing-btn" id="intro-btn">modifier</button>
-        <h2>Designer d'espace</h2>
-        <p>
-          Je raconte votre histoire, je valorise vos idées. Je vous accompagne
-          de la conception à la livraison finale du chantier.
-        </p>
-        <p>
-          Chaque projet sera étudié en commun, de façon à mettre en valeur les
-          volumes, les matières et les couleurs dans le respect de l’esprit
-          des lieux et le choix adapté des matériaux. Le suivi du chantier
-          sera assuré dans le souci du détail, le respect du planning et du
-          budget.
-        </p>
-        <p>
-          En cas de besoin, une équipe pluridisciplinaire peut-être constituée
-          : architecte DPLG, décorateur(trice)
-        </p>
-      </article>
-    </section>
-    <section id="portfolio">
+
+    <header>
+      <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
+      <nav>
+        <ul>
+          <li>projets</li>
+          <li>contact</li>
+          <a href="login.html"><li>login</li></a>
+          <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section id="introduction">
+        <figure>
+          <img src="./assets/images/sophie-bluel.png" alt="" />
+          <button class="editing-btn" id="picture-btn">modifier</button>
+        </figure>
+        <article>
+          <button class="editing-btn" id="intro-btn">modifier</button>
+          <h2>Designer d'espace</h2>
+          <p>
+            Je raconte votre histoire, je valorise vos idées. Je vous accompagne
+            de la conception à la livraison finale du chantier.
+          </p>
+          <p>
+            Chaque projet sera étudié en commun, de façon à mettre en valeur les
+            volumes, les matières et les couleurs dans le respect de l’esprit
+            des lieux et le choix adapté des matériaux. Le suivi du chantier
+            sera assuré dans le souci du détail, le respect du planning et du
+            budget.
+          </p>
+          <p>
+            En cas de besoin, une équipe pluridisciplinaire peut-être constituée
+            : architecte DPLG, décorateur(trice)
+          </p>
+        </article>
+      </section>
+      <section id="portfolio">
         <button class="editing-btn" id="work-btn">modifier</button>
         <h2>Mes Projets</h2>
         <div class="filters">

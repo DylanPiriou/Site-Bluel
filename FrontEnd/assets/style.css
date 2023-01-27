@@ -294,6 +294,7 @@ aside{
 	right: 550px;
 }
 
+/* Modal */
 .modal-container{
 	position: absolute;
 	top: 59px;
@@ -312,25 +313,64 @@ aside{
 	width: 630px;
 	height: 731px;
 	border-radius: 10px;
+	background: #fff;
+}
+
+.modal-manage-work,
+.modal-add-work{
+	width: 100%;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	gap: 46px;
-	background: #fff;
 	position: relative;
 }
 
 .modal-work-grid{
-	width: 80%;
+	width: 70%;
 	height: 60%;
 	display: grid;
-	grid-template-columns: repeat(5, 78px);
+	grid-template-columns: repeat(5, 1fr);
 	gap: 7px;
-	justify-content: center;
+	align-items: flex-start;
 	place-items: center;
-	background: crimson;
+	border-bottom: 1px solid #b3b3b3;
 }
+
+/* .modal-work-card{
+	position: relative;
+	background: blue;
+	width: 78px;
+	height: 104px;
+} */
+
+/* .fa-arrows-up-down-left-right,
+.fa-trash-can{
+	width: 17px;
+	height: 17px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 2px;
+	font-size: 11px;
+	color: #fff;
+	background: #000;
+}
+
+.fa-arrows-up-down-left-right{
+	position: absolute;
+	right: 26px;
+	top: 4px;
+	font-weight: 600;
+}
+
+.fa-trash-can{
+	position: absolute;
+	top: 4px;
+	right: 4px;
+} */
 
 .modal-work-grid img{
 	width: 78px;
@@ -343,15 +383,15 @@ aside{
 	right: 36px;
 }
 
-.modal-box h3{
+.modal-title{
 	font-size: 26px;
 }
 
-.modal-box span{
+.modal-manage-work span{
 	color: #d65353;
 }
 
-.modal-box-btn{
+.modal-manage-work-btn{
 	width: 237px;
 	height: 36px;
 	border-radius: 60px;
@@ -359,4 +399,82 @@ aside{
 	border: none;
 	font-family: 'Syne', sans-serif;
 	color: #fff;
+}
+
+.fa-arrow-left-long{
+	position: absolute;
+	left: 30px;
+	top: 30px;
+}
+
+.modal-add-work form{
+	width: auto;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 30px;
+	border-radius: 3px;
+}
+
+.title-box,
+.category-box{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 10px;
+}
+
+.modal-add-work input{
+	width: 420px;
+	height: 51px;
+	border: none;
+	outline: none;
+	background: #FFFFFF;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.download-box{
+	width: 100%;
+	height: 169px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: #e8f1f6;
+	border-radius: 3px;
+}
+
+.download-box small{
+	color: #444;
+}
+
+input[type="file"]{
+	opacity: 0;
+	z-index: 1;
+}
+
+.download-btn{
+	position: relative;
+	width: 173px;
+	height: 36px;
+	border-radius: 50px;
+	margin-bottom: 7px;
+	background: #cbd6dc;
+}
+
+.download-btn-content{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	color: #306685;
+	white-space: nowrap;
+	z-index: 0;
 }

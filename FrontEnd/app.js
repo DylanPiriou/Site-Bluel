@@ -73,30 +73,31 @@ const userLogin = {
   password: "S0phie",
 };
 
-form && form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  // Logique connexion
-  if (email.value === "" || password.value === "") {
-    email.value = "";
-    password.value = "";
-    error.textContent = "Tous les champs doivent être remplis.";
-    setTimeout(() => {
-      error.textContent = "";
-    }, 2000);
-  } else if (
-    email.value !== userLogin.email ||
-    password.value !== userLogin.password
-  ) {
-    email.value = "";
-    password.value = "";
-    error.textContent = "Les informations saisies ne sont pas correctes.";
-    setTimeout(() => {
-      error.textContent = "";
-    }, 2000);
-  } else {
-    login();
-  }
-});
+form &&
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    // Logique connexion
+    if (email.value === "" || password.value === "") {
+      email.value = "";
+      password.value = "";
+      error.textContent = "Tous les champs doivent être remplis.";
+      setTimeout(() => {
+        error.textContent = "";
+      }, 2000);
+    } else if (
+      email.value !== userLogin.email ||
+      password.value !== userLogin.password
+    ) {
+      email.value = "";
+      password.value = "";
+      error.textContent = "Les informations saisies ne sont pas correctes.";
+      setTimeout(() => {
+        error.textContent = "";
+      }, 2000);
+    } else {
+      login();
+    }
+  });
 
 // Envoie des logins à l'API via POST
 async function login() {
@@ -119,8 +120,8 @@ async function login() {
 }
 
 // S'il y a un JWT alors montrer l'interface éditable
-const token = localStorage.getItem("token")
-token && showEditing()
+const token = localStorage.getItem("token");
+token && showEditing();
 
 // Interface éditable
 function showEditing() {
@@ -129,24 +130,67 @@ function showEditing() {
 }
 
 // Gestion de la modale
-const modalBox = document.querySelector(".modal-box")
-const modalGrid = document.querySelector('.modal-work-grid')
+const modalBox = document.querySelector(".modal-manage-work");
+// const modalTitle = document.querySelector(".modal-manage-work h3")
+const modalGrid = document.querySelector(".modal-work-grid");
 
-if(modalBox && modalGrid){
+if (modalBox) {
+  // modalTitle.textContent = "Galerie photo";
+  // modalBox.prepend(modalTitle);
   fetch("http://localhost:5678/api/works")
     .then((res) => res.json())
-    .then(data => {
-      data.forEach(item => {
-        // Construction de la grille
-        let imgCard = document.createElement("div")
-        let img = document.createElement("img");
-        img.src = item.imageUrl;
-        img.setAttribute("crossorigin", "anonymous");
-        imgCard.appendChild(img)
-        modalGrid.appendChild(imgCard)
-        let titleCard = document.createElement("p")
-        titleCard.textContent = "éditer"
-        imgCard.appendChild(titleCard)
-      })
-    })
+    .then((data) => {
+      data.forEach((item) => {
+        addImgsToModal(item);
+      });
+    });
 }
+
+function addImgsToModal(item) {
+  let imgCard = document.createElement("div");
+  let img = document.createElement("img");
+  img.src = item.imageUrl;
+  img.setAttribute("crossorigin", "anonymous");
+  imgCard.appendChild(img);
+  modalGrid.appendChild(imgCard);
+  let titleCard = document.createElement("p");
+  titleCard.textContent = "éditer";
+  imgCard.appendChild(titleCard);
+}
+
+// Passer au bloc "ajout photo"
+const modalAddWork = document.querySelector('.modal-add-work')
+const btnAddPicture = document.querySelector(".modal-manage-work-btn");
+
+btnAddPicture.addEventListener("click", () => {
+  modalBox.style.display = "none"
+  modalAddWork.style.display = "flex"
+});
+
+// Logique de la flèche pour revenir en arrière
+const goBack = document.querySelector('.fa-arrow-left-long')
+
+goBack.addEventListener('click', () => {
+  console.log("dddddddddddd")
+  modalAddWork.style.display = "none"
+  modalBox.style.display = "flex"
+})
+
+
+// Logique pour fermer la modale
+const modal = document.querySelector(".modal-container")
+const closeBtn = document.querySelector('.fa-xmark')
+
+  closeBtn.addEventListener('click', () => {
+    closeModal()
+  })
+  
+  document.addEventListener('click', (e) => {
+    e.target === modal && closeModal()
+  })
+  
+  function closeModal(){
+    modal.style.display = "none"
+  }
+
+  
