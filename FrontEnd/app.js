@@ -120,19 +120,30 @@ async function login() {
 }
 
 // S'il y a un JWT alors montrer l'interface éditable
+const editingBtns = document.querySelectorAll(".editing-btn");
 const token = localStorage.getItem("token");
 token && showEditing();
 
 // Interface éditable
 function showEditing() {
-  const editingBtns = document.querySelectorAll(".editing-btn");
   editingBtns.forEach((item) => (item.style.display = "block"));
 }
 
+// Apparition de la modale au click
+const modal = document.querySelector(".modal-container")
+if(editingBtns){
+  editingBtns.forEach((item) => {
+    item.addEventListener('click', () => {
+      modal.style.display = "flex"
+    })
+  })
+}
+
+
 // Gestion de la modale
 const modalBox = document.querySelector(".modal-manage-work");
-// const modalTitle = document.querySelector(".modal-manage-work h3")
 const modalGrid = document.querySelector(".modal-work-grid");
+// const modalTitle = document.querySelector(".modal-manage-work h3")
 
 if (modalBox) {
   // modalTitle.textContent = "Galerie photo";
@@ -171,14 +182,11 @@ btnAddPicture.addEventListener("click", () => {
 const goBack = document.querySelector('.fa-arrow-left-long')
 
 goBack.addEventListener('click', () => {
-  console.log("dddddddddddd")
   modalAddWork.style.display = "none"
   modalBox.style.display = "flex"
 })
 
-
 // Logique pour fermer la modale
-const modal = document.querySelector(".modal-container")
 const closeBtn = document.querySelector('.fa-xmark')
 
   closeBtn.addEventListener('click', () => {
