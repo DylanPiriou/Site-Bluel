@@ -127,3 +127,26 @@ function showEditing() {
   const editingBtns = document.querySelectorAll(".editing-btn");
   editingBtns.forEach((item) => (item.style.display = "block"));
 }
+
+// Gestion de la modale
+const modalBox = document.querySelector(".modal-box")
+const modalGrid = document.querySelector('.modal-work-grid')
+
+if(modalBox && modalGrid){
+  fetch("http://localhost:5678/api/works")
+    .then((res) => res.json())
+    .then(data => {
+      data.forEach(item => {
+        // Construction de la grille
+        let imgCard = document.createElement("div")
+        let img = document.createElement("img");
+        img.src = item.imageUrl;
+        img.setAttribute("crossorigin", "anonymous");
+        imgCard.appendChild(img)
+        modalGrid.appendChild(imgCard)
+        let titleCard = document.createElement("p")
+        titleCard.textContent = "éditer"
+        imgCard.appendChild(titleCard)
+      })
+    })
+}

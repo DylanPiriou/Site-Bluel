@@ -91,6 +91,11 @@ nav ul {
 	list-style-type: none;
 
 }
+nav ul a{
+	text-decoration: none;
+	color: #000;
+}
+
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
@@ -203,7 +208,7 @@ button.active{
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
+input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -211,7 +216,8 @@ input[type="submit"] {
 	margin : 2em auto ;
 	width: 180px!important;
 	text-align: center;
-	border-radius: 60px ;
+	border-radius: 60px;
+	border: none;
 }
 
 footer nav ul {
@@ -286,4 +292,71 @@ aside{
 	position: absolute;
 	top: 580px;
 	right: 550px;
+}
+
+.modal-container{
+	position: absolute;
+	top: 59px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.609);
+	z-index: 1;
+}
+
+.modal-box{
+	width: 630px;
+	height: 731px;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 46px;
+	background: #fff;
+	position: relative;
+}
+
+.modal-work-grid{
+	width: 80%;
+	height: 60%;
+	display: grid;
+	grid-template-columns: repeat(5, 78px);
+	gap: 7px;
+	justify-content: center;
+	place-items: center;
+	background: crimson;
+}
+
+.modal-work-grid img{
+	width: 78px;
+	height: 104px;
+}
+
+.fa-xmark{
+	position: absolute;
+	top: 32px;
+	right: 36px;
+}
+
+.modal-box h3{
+	font-size: 26px;
+}
+
+.modal-box span{
+	color: #d65353;
+}
+
+.modal-box-btn{
+	width: 237px;
+	height: 36px;
+	border-radius: 60px;
+	background: #1d6154;
+	border: none;
+	font-family: 'Syne', sans-serif;
+	color: #fff;
 }
