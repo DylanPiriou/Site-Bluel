@@ -131,17 +131,20 @@ function showEditing() {
 
 // Apparition de la modale au click
 const modal = document.querySelector(".modal-container")
+const modalBox = document.querySelector(".modal-manage-work");
+const modalAddWork = document.querySelector('.modal-add-work')
 if(editingBtns){
   editingBtns.forEach((item) => {
     item.addEventListener('click', () => {
       modal.style.display = "flex"
+      // Permet de revenir tout le temps à la première modale en ouvrant
+      modalBox.style.display = "flex";
+      modalAddWork.style.display = "none";
     })
   })
 }
 
-
 // Gestion de la modale
-const modalBox = document.querySelector(".modal-manage-work");
 const modalGrid = document.querySelector(".modal-work-grid");
 // const modalTitle = document.querySelector(".modal-manage-work h3")
 
@@ -158,19 +161,48 @@ if (modalBox) {
 }
 
 function addImgsToModal(item) {
+  // Création des images
   let imgCard = document.createElement("div");
+  imgCard.className = "modal-work-card"
   let img = document.createElement("img");
   img.src = item.imageUrl;
   img.setAttribute("crossorigin", "anonymous");
   imgCard.appendChild(img);
   modalGrid.appendChild(imgCard);
+  // Création des icons
+  let arrowIcon = document.createElement('i')
+  let trashIcon = document.createElement('i')
+  arrowIcon.className = "fa-solid fa-arrows-up-down-left-right"
+  trashIcon.className = "fa-solid fa-trash-can"
+  trashIcon.id = item.id
+  imgCard.appendChild(arrowIcon);
+  imgCard.appendChild(trashIcon);
+  trashIcon.addEventListener('click', (e) => {
+    deleteWork(e)
+  })
+  // Création du txt "éditer"
   let titleCard = document.createElement("p");
   titleCard.textContent = "éditer";
   imgCard.appendChild(titleCard);
 }
 
+// Suppression des travaux
+function deleteWork(e){
+  const imgId = e.target.id;
+  fetch(`http://localhost:5678/api/works/${imgId}`, {
+    method: 'DELETE',
+    headers: {
+      "Content-type": "application/json",
+      "Authorization": `Bearer ${token}`
+    }
+  }).then(res => res.json()).then(data => {
+    if(data.success){
+      alert("Votre élément a été supprimé avec succès !")
+    }
+  }).catch(error => console.log(error))
+}
+
 // Passer au bloc "ajout photo"
-const modalAddWork = document.querySelector('.modal-add-work')
 const btnAddPicture = document.querySelector(".modal-manage-work-btn");
 
 btnAddPicture.addEventListener("click", () => {
@@ -187,10 +219,12 @@ goBack.addEventListener('click', () => {
 })
 
 // Logique pour fermer la modale
-const closeBtn = document.querySelector('.fa-xmark')
+const closeBtns = document.querySelectorAll('.fa-xmark')
 
-  closeBtn.addEventListener('click', () => {
-    closeModal()
+  closeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeModal()
+    })
   })
   
   document.addEventListener('click', (e) => {
@@ -200,5 +234,10 @@ const closeBtn = document.querySelector('.fa-xmark')
   function closeModal(){
     modal.style.display = "none"
   }
+
+
+
+
+
 
   
