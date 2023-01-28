@@ -145,11 +145,8 @@ if(editingBtns){
 
 // Gestion de la modale
 const modalGrid = document.querySelector(".modal-work-grid");
-// const modalTitle = document.querySelector(".modal-manage-work h3")
 
 if (modalBox) {
-  // modalTitle.textContent = "Galerie photo";
-  // modalBox.prepend(modalTitle);
   fetch("http://localhost:5678/api/works")
     .then((res) => res.json())
     .then((data) => {
@@ -179,7 +176,6 @@ function addImgsToModal(item) {
   trashIcon.addEventListener('click', (e) => {
     deleteWork(e)
   })
-  // Création du txt "éditer"
   let titleCard = document.createElement("p");
   titleCard.textContent = "éditer";
   imgCard.appendChild(titleCard);
@@ -201,6 +197,8 @@ function deleteWork(e){
   }).catch(error => console.log(error))
 }
 
+// ------------------- //
+
 // Passer au bloc "ajout photo"
 const btnAddPicture = document.querySelector(".modal-manage-work-btn");
 
@@ -209,24 +207,32 @@ btnAddPicture.addEventListener("click", () => {
   modalAddWork.style.display = "flex"
 });
 
+// ---------------- //
+
 // Ajouter le choix des catégories
 const categorySelect = document.querySelector('#category-select')
+let selectedCategoryId;
 function callCategories(){
   fetch(`http://localhost:5678/api/categories`).then(res => res.json()).then(data => {
     data.forEach(category => {
       let option = document.createElement('option')
       option.id = category.id;
+      selectedCategoryId = option.id;
       option.textContent = category.name;
       categorySelect.appendChild(option)
+      // console.log(option.id)
     })
   }).catch(err => console.log(err))
 }
 callCategories()
 
+// -------------------- //
+
 // Voir le rendu de l'image séléctionnée
 const downloadBox = document.querySelector('.download-box')
 const inputFile = document.querySelector('#input-file')
 const imgPreview = document.createElement('img');
+const dlBtn = document.querySelector('.download-btn')
 imgPreview.className = "img-box"
 
 inputFile.addEventListener('change', () => {
@@ -239,38 +245,68 @@ inputFile.addEventListener('change', () => {
     };
 
     reader.readAsDataURL(file);
-});  
+});
+
+// ---------------------- //
 
 // Ajouter des travaux
 const addWorkBtn = document.querySelector('.modal-add-work-btn')
+let errorMsg = document.createElement('small')
+modalAddWork.appendChild(errorMsg)
 
 addWorkBtn.addEventListener('click', () => {
   getInputsValue()
 })
 
 function getInputsValue(){
+  // let categoryValue = categorySelect.value;
   let fileValue = inputFile.value;
+  let fileName = fileValue.substring(fileValue.lastIndexOf("\\") + 1)
   let titleValue = inputTitle.value;
-  let categoryValue = categorySelect.value;
-  console.log(fileValue, titleValue, categoryValue)
-  if(!fileValue || !titleValue || !categoryValue){
-    let errorMsg = document.createElement('small')
+  let categoryId = categorySelect.selectedOptions[0].id
+  console.log(fileName, titleValue, categoryId)
+
+  if(!fileValue || !titleValue || !categoryId){
     errorMsg.textContent = "Tous les champs doivent être remplis."
+    errorMsg.style.color = "#D65353"
     setTimeout(() => {
       errorMsg.textContent = ""
     }, 2000);
-    errorMsg.style.color = "#D65353"
-    modalAddWork.appendChild(errorMsg)
     inputFile.value = "";
     imgPreview.src = "";
     inputTitle.value = "";
   } else {
+    addWork(fileName, titleValue, categoryId)
+    errorMsg.textContent = "Contenu ajouté avec succès !"
+    errorMsg.style.color = "green"
+    setTimeout(() => {
+      errorMsg.textContent = ""
+    }, 2000);
     inputFile.value = "";
     imgPreview.src = "";
     inputTitle.value = "";
-    alert('Travail ajouté avec succès')
   }
 }
+
+function addWork(file, title, category){
+  let data = {
+    "id": 11,
+    "title": title,
+    "imageUrl": file,
+    "categoryId": category,
+    "userId": 0
+  }
+  fetch(`http://localhost:5678/api/works`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+  }).then(res => res.json()).then(data => console.log(data)).catch(err => console.log(err))
+}
+
+//  ---------------------------- //
 
 // Logique de la flèche pour revenir en arrière
 const goBack = document.querySelector('.fa-arrow-left-long')
