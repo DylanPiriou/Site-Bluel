@@ -139,7 +139,6 @@ if(editingBtns){
       modal.style.display = "flex"
       // Permet de revenir tout le temps à la première modale en ouvrant
       modalBox.style.display = "flex";
-      modalAddWork.style.display = "none";
     })
   })
 }
@@ -210,6 +209,69 @@ btnAddPicture.addEventListener("click", () => {
   modalAddWork.style.display = "flex"
 });
 
+// Ajouter le choix des catégories
+const categorySelect = document.querySelector('#category-select')
+function callCategories(){
+  fetch(`http://localhost:5678/api/categories`).then(res => res.json()).then(data => {
+    data.forEach(category => {
+      let option = document.createElement('option')
+      option.id = category.id;
+      option.textContent = category.name;
+      categorySelect.appendChild(option)
+    })
+  }).catch(err => console.log(err))
+}
+callCategories()
+
+// Voir le rendu de l'image séléctionnée
+const downloadBox = document.querySelector('.download-box')
+const inputFile = document.querySelector('#input-file')
+const imgPreview = document.createElement('img');
+imgPreview.className = "img-box"
+
+inputFile.addEventListener('change', () => {
+    const file = inputFile.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        imgPreview.src = e.target.result;
+        downloadBox.appendChild(imgPreview)
+    };
+
+    reader.readAsDataURL(file);
+});  
+
+// Ajouter des travaux
+const addWorkBtn = document.querySelector('.modal-add-work-btn')
+
+addWorkBtn.addEventListener('click', () => {
+  getInputsValue()
+})
+
+function getInputsValue(){
+  let fileValue = inputFile.value;
+  let titleValue = inputTitle.value;
+  let categoryValue = categorySelect.value;
+  console.log(fileValue, titleValue, categoryValue)
+  if(!fileValue || !titleValue || !categoryValue){
+    let errorMsg = document.createElement('small')
+    errorMsg.textContent = "Tous les champs doivent être remplis."
+    setTimeout(() => {
+      errorMsg.textContent = ""
+    }, 2000);
+    errorMsg.style.color = "#D65353"
+    modalAddWork.appendChild(errorMsg)
+    inputFile.value = "";
+    imgPreview.src = "";
+    inputTitle.value = "";
+  } else {
+    inputFile.value = "";
+    imgPreview.src = "";
+    inputTitle.value = "";
+    alert('Travail ajouté avec succès')
+  }
+}
+
 // Logique de la flèche pour revenir en arrière
 const goBack = document.querySelector('.fa-arrow-left-long')
 
@@ -220,24 +282,20 @@ goBack.addEventListener('click', () => {
 
 // Logique pour fermer la modale
 const closeBtns = document.querySelectorAll('.fa-xmark')
+const inputTitle = document.querySelector("#title-btn")
 
-  closeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      closeModal()
-    })
+closeBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    closeModal()
   })
-  
-  document.addEventListener('click', (e) => {
-    e.target === modal && closeModal()
-  })
-  
-  function closeModal(){
-    modal.style.display = "none"
-  }
+})
 
+document.addEventListener('click', (e) => {
+  e.target === modal && closeModal()
+})
 
-
-
-
-
-  
+function closeModal(){
+  modal.style.display = "none"
+  inputTitle.value = "";
+  imgPreview.src = "";
+}

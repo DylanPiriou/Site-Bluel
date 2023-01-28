@@ -267,7 +267,7 @@ aside{
 }
 
 .top-editing-box{
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -277,6 +277,7 @@ aside{
 	justify-content: center;
 	gap: 21px;
 	background: black;
+	z-index: 10;
 }
 
 .top-editing-box span{
@@ -302,7 +303,7 @@ aside{
 
 /* Modal */
 .modal-container{
-	position: absolute;
+	position: fixed;
 	top: 59px;
 	left: 0;
 	width: 100%;
@@ -396,7 +397,8 @@ aside{
 	color: #d65353;
 }
 
-.modal-manage-work-btn{
+.modal-manage-work-btn,
+.modal-add-work-btn{
 	width: 237px;
 	height: 36px;
 	border-radius: 60px;
@@ -432,7 +434,8 @@ aside{
 	gap: 10px;
 }
 
-.modal-add-work input{
+.modal-add-work input,
+select{
 	width: 420px;
 	height: 51px;
 	border: none;
@@ -450,15 +453,7 @@ aside{
 	justify-content: center;
 	background: #e8f1f6;
 	border-radius: 3px;
-}
-
-.download-box small{
-	color: #444;
-}
-
-input[type="file"]{
-	opacity: 0;
-	z-index: 1;
+	position: relative;
 }
 
 .download-btn{
@@ -468,6 +463,27 @@ input[type="file"]{
 	border-radius: 50px;
 	margin-bottom: 7px;
 	background: #cbd6dc;
+}
+
+input[type="file"]{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+}
+
+.img-box{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: auto;
+	height: 100%;
+	object-fit: cover;
+}
+
+.download-box small{
+	color: #444;
 }
 
 .download-btn-content{
@@ -481,5 +497,6 @@ input[type="file"]{
 	gap: 5px;
 	color: #306685;
 	white-space: nowrap;
+	cursor: pointer;;
 	z-index: 0;
 }

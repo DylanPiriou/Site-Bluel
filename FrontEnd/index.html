@@ -39,31 +39,33 @@
         </div>
 
         <!-- Modal ajout photos -->
-        <div class="modal-add-work">
+        <div class="modal-add-work" style="display: none;">
           <i class="fa-sharp fa-solid fa-arrow-left-long"></i>
           <i class="fa-solid fa-xmark"></i>
           <h3 class="modal-title">Ajout photo</h3>
             <form action="POST">
+
               <div class="download-box">
                 <div class="download-btn">
-                <input type="file" name="" id="">
                   <div class="download-btn-content">
-                  <i class="fa-sharp fa-solid fa-plus"></i>
-                  <p>Ajouter photo</p>
+                    <i class="fa-sharp fa-solid fa-plus"></i>
+                    <p>Ajouter photo</p>
                   </div>
                 </div>
-              <small>jpg, png : 4mo max</small>
+                <input type="file" id="input-file">
+                <small>jpg, png : 4mo max</small>
               </div>
+
               <div class="title-box">
               <label for="title">Titre</label>
-              <input type="text" name="title" id="title">
+              <input type="text" name="title" id="title-btn">
               </div>
               <div class="category-box">
-              <label for="category" name="" id="">Catégorie</label>
-              <input type="text" name="" id="">
+              <label for="category">Catégorie</label>
+              <select name="category" id="category-select"></select>
               </div>
             </form>
-          <button class="modal-manage-work-btn">Ajouter une photo</button>
+          <button class="modal-add-work-btn">Valider</button>
         </div>
       </div>
     </div>
