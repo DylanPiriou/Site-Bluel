@@ -260,11 +260,12 @@ addWorkBtn.addEventListener('click', () => {
 
 function getInputsValue(){
   // let categoryValue = categorySelect.value;
-  let fileValue = inputFile.value;
-  let fileName = fileValue.substring(fileValue.lastIndexOf("\\") + 1)
+  let fileValue = inputFile.files[0];
+  console.log(fileValue)
+  // let fileName = fileValue.substring(fileValue.lastIndexOf("\\") + 1)
   let titleValue = inputTitle.value;
-  let categoryId = categorySelect.selectedOptions[0].id
-  console.log(fileName, titleValue, categoryId)
+  let categoryId = categorySelect.selectedOptions[0] ? categorySelect.selectedOptions[0].id : null;
+  // console.log(fileName, titleValue, categoryId)
 
   if(!fileValue || !titleValue || !categoryId){
     errorMsg.textContent = "Tous les champs doivent être remplis."
@@ -275,8 +276,9 @@ function getInputsValue(){
     inputFile.value = "";
     imgPreview.src = "";
     inputTitle.value = "";
+    console.log(fileValue, titleValue, categoryId)
   } else {
-    addWork(fileName, titleValue, categoryId)
+    addWork(fileValue, titleValue, categoryId)
     errorMsg.textContent = "Contenu ajouté avec succès !"
     errorMsg.style.color = "green"
     setTimeout(() => {
@@ -289,22 +291,24 @@ function getInputsValue(){
 }
 
 function addWork(file, title, category){
-  let data = {
-    "id": 11,
-    "title": title,
-    "imageUrl": file,
-    "categoryId": category,
-    "userId": 0
-  }
+  let formData = new FormData();
+  formData.append("image", file, file.name)
+  formData.append("title", title)
+  formData.append("category_id", category)
   fetch(`http://localhost:5678/api/works`, {
     method: "POST",
-    body: JSON.stringify(data),
+    body: formData,
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "multipart/form-data"
     },
-  }).then(res => res.json()).then(data => console.log(data)).catch(err => console.log(err))
+  }).then(res => {
+    if(res.ok) return res.json()
+    throw new Error(res.statusText);
+  }).then(data => console.log(data))
+  .catch(err => console.log(err))
 }
+
 
 //  ---------------------------- //
 
