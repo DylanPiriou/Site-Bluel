@@ -120,12 +120,14 @@ async function login() {
 }
 
 // S'il y a un JWT alors montrer l'interface éditable
+const editingBar = document.querySelector('#editing-container')
 const editingBtns = document.querySelectorAll(".editing-btn");
 const token = localStorage.getItem("token");
 token && showEditing();
 
 // Interface éditable
 function showEditing() {
+  editingBar.style.display = "block"
   editingBtns.forEach((item) => (item.style.display = "block"));
 }
 
@@ -272,7 +274,6 @@ function getInputsValue(){
     inputFile.value = "";
     imgPreview.src = "";
     inputTitle.value = "";
-    console.log(fileValue, titleValue, categoryId)
   } else {
     addWork(fileValue, titleValue, categoryId)
     errorMsg.textContent = "Contenu ajouté avec succès !"
@@ -289,7 +290,6 @@ function getInputsValue(){
 function addWork(file, title, category){
   let formData = new FormData();
   formData.append("image", file)
-  console.log(file, title, category)
   formData.append("title", title)
   formData.append("category", category)
   fetch(`http://localhost:5678/api/works`, {
@@ -298,7 +298,7 @@ function addWork(file, title, category){
     headers: {
       "Authorization": `Bearer ${token}`
     },
-  }).then(res => res.json()).then(data =>alert(data))
+  }).then(res => res.json()).then(data => console.log("succès"))
   .catch(err => console.log(err))
 }
 
