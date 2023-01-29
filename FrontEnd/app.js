@@ -259,13 +259,9 @@ addWorkBtn.addEventListener('click', () => {
 })
 
 function getInputsValue(){
-  // let categoryValue = categorySelect.value;
   let fileValue = inputFile.files[0];
-  console.log(fileValue)
-  // let fileName = fileValue.substring(fileValue.lastIndexOf("\\") + 1)
   let titleValue = inputTitle.value;
-  let categoryId = categorySelect.selectedOptions[0] ? categorySelect.selectedOptions[0].id : null;
-  // console.log(fileName, titleValue, categoryId)
+  let categoryId = +categorySelect.selectedOptions[0].id
 
   if(!fileValue || !titleValue || !categoryId){
     errorMsg.textContent = "Tous les champs doivent être remplis."
@@ -292,20 +288,17 @@ function getInputsValue(){
 
 function addWork(file, title, category){
   let formData = new FormData();
-  formData.append("image", file, file.name)
+  formData.append("image", file)
+  console.log(file, title, category)
   formData.append("title", title)
-  formData.append("category_id", category)
+  formData.append("category", category)
   fetch(`http://localhost:5678/api/works`, {
     method: "POST",
     body: formData,
     headers: {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "multipart/form-data"
+      "Authorization": `Bearer ${token}`
     },
-  }).then(res => {
-    if(res.ok) return res.json()
-    throw new Error(res.statusText);
-  }).then(data => console.log(data))
+  }).then(res => res.json()).then(data =>alert(data))
   .catch(err => console.log(err))
 }
 
