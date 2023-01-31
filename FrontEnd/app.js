@@ -59,10 +59,12 @@ function filterByCategory(category) {
 // Charge la catégorie "Tous" par défaut au chargement de la page
 window.onload = () => {
   filterByCategory("category1");
+  // Mettre tout le code suivant ici
 };
 
-// ----------------------------------------- //
+// Stocker les données pour le filtre
 
+// ----------------------------------------- //
 // Formulaire login
 const form = document.querySelector("#form-login");
 const email = document.querySelector("#mail-login");
@@ -100,8 +102,8 @@ form &&
   });
 
 // Envoie des logins à l'API via POST
-async function login() {
-  const response = await fetch(`http://localhost:5678/api/users/login`, {
+function login() {
+  fetch(`http://localhost:5678/api/users/login`, {
     method: "POST",
     body: JSON.stringify({
       email: email.value,
@@ -110,13 +112,13 @@ async function login() {
     headers: {
       "Content-Type": "application/json",
     },
-  });
-  const data = await response.json();
-  // Si on reçoit le JWT alors stockage dans le localStorage
-  if (data.token) {
-    localStorage.setItem("token", data.token);
-    window.location.replace("index.html");
-  }
+  }).then(res => res.json()).then(data => {
+    // Si on reçoit le JWT alors stockage dans le localStorage
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      window.location.replace("index.html");
+    }
+  })
 }
 
 // S'il y a un JWT alors montrer l'interface éditable
@@ -156,6 +158,7 @@ if (modalBox) {
         addImgsToModal(item);
       });
     });
+    // Se servir du tableau de doonées créé pour afficher les vignettes
 }
 
 function addImgsToModal(item) {
@@ -209,7 +212,7 @@ btnAddPicture.addEventListener("click", () => {
   modalAddWork.style.display = "flex"
 });
 
-// ---------------- //
+// ---------------------- //
 
 // Ajouter le choix des catégories
 const categorySelect = document.querySelector('#category-select')
