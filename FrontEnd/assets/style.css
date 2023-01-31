@@ -30,7 +30,6 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	height: 100vh;
 }
 ol, ul {
 	list-style: none;
@@ -195,7 +194,11 @@ button.active{
 	margin: auto;
 }
 #login{
+	height: 70vh;
 	max-width: 379px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 #contact,
 #login > * {
