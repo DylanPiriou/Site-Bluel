@@ -1,13 +1,16 @@
 const categories = document.querySelectorAll(".filter-button");
 const gallery = document.querySelector(".gallery");
+const modalGrid = document.querySelector(".modal-work-grid");
+let arrayData = [];
 
 // Ajout d'un event au clique pour chaque bouton de filtre
 categories.forEach((category) => {
   category.addEventListener("click", (e) => {
     // Récupère la catégorie sélectionnée à partir de l'attribut "data-category"
     const selectedCategory = e.target.getAttribute("data-category");
-    // Vide le contenu de la galerie avant de filtrer les données
+    // Vide le contenu de la galerie avant de filtrer les données (page et modale)
     gallery.innerHTML = "";
+    modalGrid.innerHTML = "";
     // Supprime la classe "active" des boutons
     categories.forEach((category) => category.classList.remove("active"));
     // Ajoute la classe "active" à l'élément sélectionné
@@ -23,43 +26,79 @@ function filterByCategory(category) {
     filter.set("category2", "Objets");
     filter.set("category3", "Appartements");
     filter.set("category4", "Hotels & restaurants");
-  fetch("http://localhost:5678/api/works")
-    .then((res) => res.json())
-    .then((data) => {
-      let filteredData;
-      if (category === "category1") {
-        filteredData = data;
-      } else {
-        const value = filter.get(category);
-        filteredData = data.filter((work) => work.category.name === value);
-      }
+  !!arrayData &&
+    fetch("http://localhost:5678/api/works")
+      .then((res) => res.json())
+      .then((data) => {
+        arrayData = data;
+        let filteredData;
+        if (category === "category1") {
+          filteredData = arrayData;
+        } else {
+          const value = filter.get(category);
+          filteredData = arrayData.filter((work) => work.category.name === value);
+        }
 
-      // Fonction qui permet de créer les éléments
-      function handleGalleryElements(item) {
-        let figure = document.createElement("figure");
-        let img = document.createElement("img");
-        img.src = item.imageUrl;
-        img.alt = item.title;
-        img.setAttribute("crossorigin", "anonymous");
-        figure.appendChild(img);
-        let figcaption = document.createElement("figcaption");
-        figcaption.textContent = item.title;
-        figure.appendChild(figcaption);
-        return figure;
-      }
-
-      // Fonction qui permet d'ajouter les éléments dans la balise "gallery" via une boucle
-      function addToGallery(elements) {
-        elements.forEach((element) => gallery.appendChild(element));
-      }
-
-      // Parcours les éléments filtrés, crée les éléments et les ajoute à la "gallery"
-      filteredData.forEach((item) => {
-        let element = handleGalleryElements(item);
-        addToGallery([element]);
+    // Gestion de la modale
+    modalBox &&
+      arrayData.forEach(item => {
+      addImgsToModal(item)
+      arrayData = []
       });
-    })
-    .catch((error) => console.log(error));
+
+  // Fonction qui permet de créer les éléments
+  function handleGalleryElements(item) {
+    let figure = document.createElement("figure");
+    let img = document.createElement("img");
+    img.src = item.imageUrl;
+    img.alt = item.title;
+    img.setAttribute("crossorigin", "anonymous");
+    figure.appendChild(img);
+    let figcaption = document.createElement("figcaption");
+    figcaption.textContent = item.title;
+    figure.appendChild(figcaption);
+    return figure;
+  }
+
+  // Fonction qui permet d'ajouter les éléments dans la balise "gallery" via une boucle
+  function addToGallery(elements) {
+    elements.forEach((element) => gallery.appendChild(element));
+  }
+
+  // Parcours les éléments filtrés, crée les éléments et les ajoute à la "gallery"
+  filteredData.forEach((item) => {
+    let element = handleGalleryElements(item);
+    addToGallery([element]);
+  });
+  })
+  .catch((error) => console.log(error));
+}
+
+// Fonction qui permet d'ajouter les images à la modale
+function addImgsToModal(item) {
+  // Création des images
+  let imgCard = document.createElement("div");
+  imgCard.className = "modal-work-card"
+  let img = document.createElement("img");
+  img.src = item.imageUrl;
+  img.setAttribute("crossorigin", "anonymous");
+  imgCard.appendChild(img);
+  modalGrid.appendChild(imgCard);
+  // Création des icons
+  let arrowIcon = document.createElement('i')
+  let trashIcon = document.createElement('i')
+  arrowIcon.className = "fa-solid fa-arrows-up-down-left-right"
+  trashIcon.className = "fa-solid fa-trash-can"
+  trashIcon.id = item.id
+  imgCard.appendChild(arrowIcon);
+  imgCard.appendChild(trashIcon);
+  // Event au click sur l'icon supprimer
+  trashIcon.addEventListener('click', (e) => {
+    deleteWork(e)
+  })
+  let titleCard = document.createElement("p");
+  titleCard.textContent = "éditer";
+  imgCard.appendChild(titleCard);
 }
 
 // Charge la catégorie "Tous" par défaut au chargement de la page
@@ -67,8 +106,6 @@ window.onload = () => {
   filterByCategory("category1");
   // Mettre tout le code suivant ici
 };
-
-// Stocker les données pour le filtre
 
 // ----------------------------------------- //
 // Formulaire login
@@ -151,45 +188,6 @@ if(editingBtns){
       modalBox.style.display = "flex";
     })
   })
-}
-
-// Gestion de la modale
-const modalGrid = document.querySelector(".modal-work-grid");
-
-if (modalBox) {
-  fetch("http://localhost:5678/api/works")
-    .then((res) => res.json())
-    .then((data) => {
-      data.forEach((item) => {
-        addImgsToModal(item);
-      });
-    });
-    // Se servir du tableau de doonées créé pour afficher les vignettes
-}
-
-function addImgsToModal(item) {
-  // Création des images
-  let imgCard = document.createElement("div");
-  imgCard.className = "modal-work-card"
-  let img = document.createElement("img");
-  img.src = item.imageUrl;
-  img.setAttribute("crossorigin", "anonymous");
-  imgCard.appendChild(img);
-  modalGrid.appendChild(imgCard);
-  // Création des icons
-  let arrowIcon = document.createElement('i')
-  let trashIcon = document.createElement('i')
-  arrowIcon.className = "fa-solid fa-arrows-up-down-left-right"
-  trashIcon.className = "fa-solid fa-trash-can"
-  trashIcon.id = item.id
-  imgCard.appendChild(arrowIcon);
-  imgCard.appendChild(trashIcon);
-  trashIcon.addEventListener('click', (e) => {
-    deleteWork(e)
-  })
-  let titleCard = document.createElement("p");
-  titleCard.textContent = "éditer";
-  imgCard.appendChild(titleCard);
 }
 
 // Suppression des travaux
