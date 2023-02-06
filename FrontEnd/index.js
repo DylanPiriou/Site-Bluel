@@ -7,6 +7,18 @@ let arrayData = [];
 window.onload = () => {
   filterByCategory("category1");
 
+  // S'il y a un JWT alors montrer l'interface éditable
+  const editingBar = document.querySelector('#editing-container')
+  const editingBtns = document.querySelectorAll(".editing-btn");
+  const token = localStorage.getItem("token");
+  token && showEditing();
+
+  // Apparition de l'interface éditable
+  function showEditing() {
+    editingBar.style.display = "block"
+    editingBtns.forEach((item) => (item.style.display = "block"));
+  }
+
   // Ajout d'un event au clique pour chaque bouton de filtre
   categoriesBtn.forEach((category) => {
     category.addEventListener("click", (e) => {
@@ -61,7 +73,7 @@ window.onload = () => {
   }
 
   // Fonction qui permet de créer les éléments
-  function handleGalleryElements(item) {
+  function addImgsToGallery(item) {
     let figure = document.createElement("figure");
     let img = document.createElement("img");
     img.src = item.imageUrl;
@@ -83,7 +95,7 @@ window.onload = () => {
   // Parcours les éléments filtrés, crée les éléments et les ajoute à la "gallery"
   function handleGallery(filteredData) {
     filteredData.forEach((item) => {
-      let element = handleGalleryElements(item);
+      let element = addImgsToGallery(item);
       addToGallery([element]);
     })
   }
@@ -115,19 +127,8 @@ window.onload = () => {
     imgCard.appendChild(titleCard);
   }
 
-  // ------------- INTERFACE EDITABLE -------------- //
 
-  // S'il y a un JWT alors montrer l'interface éditable
-  const editingBar = document.querySelector('#editing-container')
-  const editingBtns = document.querySelectorAll(".editing-btn");
-  const token = localStorage.getItem("token");
-  token && showEditing();
-
-  // Interface éditable
-  function showEditing() {
-    editingBar.style.display = "block"
-    editingBtns.forEach((item) => (item.style.display = "block"));
-  }
+  // ------------- LOGIQUE DE LA MODALE -------------- //
 
   // Apparition de la modale au click
   const modal = document.querySelector(".modal-container")
@@ -159,8 +160,6 @@ window.onload = () => {
     }).catch(error => console.log(error))
   }
 
-  // ------------------- //
-
   // Passer au bloc "ajout photo"
   const btnAddPicture = document.querySelector(".modal-manage-work-btn");
 
@@ -168,8 +167,6 @@ window.onload = () => {
     modalBox.style.display = "none"
     modalAddWork.style.display = "flex"
   });
-
-  // ---------------------- //
 
   // Ajouter le choix des catégories
   const categorySelect = document.querySelector('#category-select')
@@ -187,8 +184,6 @@ window.onload = () => {
     }).catch(err => console.log(err))
   }
   callCategories()
-
-  // -------------------- //
 
   // Voir le rendu de l'image séléctionnée
   const downloadBox = document.querySelector('.download-box')
@@ -208,8 +203,6 @@ window.onload = () => {
 
     reader.readAsDataURL(file);
   });
-
-  // ---------------------- //
 
   // Ajouter des travaux
   const addWorkBtn = document.querySelector('.modal-add-work-btn')
@@ -261,9 +254,6 @@ window.onload = () => {
     }).then(res => res.json()).then(data => console.log("succès"))
       .catch(err => console.log(err))
   }
-
-
-  //  ---------------------------- //
 
   // Logique de la flèche pour revenir en arrière
   const goBack = document.querySelector('.fa-arrow-left-long')
