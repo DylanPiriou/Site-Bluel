@@ -1,4 +1,5 @@
-// Formulaire login
+// ------------- LOGIQUE DE LA PAGE LOGIN -------------- //
+
 const form = document.querySelector("#form-login");
 const email = document.querySelector("#mail-login");
 const password = document.querySelector("#password-login");
