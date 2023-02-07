@@ -119,8 +119,8 @@ li.active{
 
 #picture-btn{
 	position: absolute;
-	padding: 15px 0 0;
 	left: 10%;
+	padding-top: 1vh;
 }
 
 #introduction img {
@@ -138,22 +138,25 @@ li.active{
 }
 
 #intro-btn{
-	padding: 0 0 38px 0;
+	float: top;
 }
 
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
+#portfolio{
+	text-align: center;
+}
+
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
-	position: relative;
+	margin: 0 auto 1em;
+	display: inline-block;
 }
 
 #work-btn{
-	position: absolute;
-	top: 0px;
-	right: 355px;
+	float: right;
 }
 
 .filters{
