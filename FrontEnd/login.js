@@ -9,22 +9,28 @@ const userLogin = {
   password: "S0phie",
 };
 
+// Soummission du formulaire
 form.addEventListener("submit", handleLogin)
-
 
 function handleLogin(e){
     e.preventDefault();
-    // Logique connexion
-    // Ajouter .trim() pour vérifier les espaces
-    // Ajouter un regex pour l'email
-    if (email.value === "" || password.value === "") {
+    const userEmail = email.value.trim()
+    const userPassword = password.value.trim()
+    if (!userEmail || !userPassword) {
         email.value = "";
         password.value = "";
         error.textContent = "Tous les champs doivent être remplis.";
         setTimeout(() => {
           error.textContent = "";
         }, 2000);
-    } else {
+    } else if(userEmail !== userLogin.email || userPassword !== userLogin.password) {
+        email.value = "";
+        password.value = "";
+        error.textContent = "Les identifiants de connexion sont incorrectes.";
+        setTimeout(() => {
+          error.textContent = "";
+        }, 2000);
+    }else {
         login();
     }
 }
@@ -43,7 +49,7 @@ function login() {
     }).then(res => res.json()).then(data => {
         // Si on reçoit le JWT alors stockage dans le localStorage
         data.token &&
-            sessionStorage.setItem("token", data.token);
+            localStorage.setItem("token", data.token);
             window.location.replace("index.html");
     }).catch(err => console.log(err))
 }

@@ -4,7 +4,7 @@
 const body = document.querySelector("body")
 const editingBar = document.querySelector('#editing-container')
 const editingBtns = document.querySelectorAll(".editing-btn");
-const token = sessionStorage.getItem("token");
+const token = localStorage.getItem("token");
 token && showEditing();
 
 // Apparition de l'interface éditable
@@ -16,21 +16,21 @@ function showEditing() {
 
 // Apparition de la modale au click
 const modal = document.querySelector(".modal-container")
-const modalBox = document.querySelector(".modal-manage-work");
+const modalManageWork = document.querySelector(".modal-manage-work");
 const modalAddWork = document.querySelector('.modal-add-work')
 if (editingBtns) {
-    editingBtns.forEach((item) => {
-        item.addEventListener('click', () => {
+    editingBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
             modal.style.display = "flex"
             // Permet de revenir tout le temps à la première modale en ouvrant
-            modalBox.style.display = "flex";
+            modalManageWork.style.display = "flex";
         })
     })
 }
 
 // Gestion de la modale
 function handleModal() {
-    modalBox &&
+    modalManageWork &&
         arrayData.forEach(item => {
             addImgsToModal(item)
         });
@@ -62,7 +62,7 @@ function addImgsToModal(item) {
     let titleCard = document.createElement("p");
     titleCard.textContent = "éditer";
     imgCard.appendChild(titleCard);
-  }
+}
 
 // Suppression des travaux
 function deleteWork(e) {
@@ -75,18 +75,19 @@ function deleteWork(e) {
         }
     }).then(res => {
         if (res.ok) {
-            alert("Votre élément a été supprimé avec succès !")
-            arrayData = arrayData.filter(item => item.id !== imgId);
-            modalWorkGrid.innerHTML = "";
-        }})
-    .catch(error => console.log(error))
+            // alert("Votre élément a été supprimé avec succès !")
+            // arrayData = arrayData.filter(item => item.id !== imgId);
+            handleModal()
+        }
+    })
+        .catch(error => console.log(error))
 }
 
 // Passer au bloc "ajout photo"
 const btnAddPicture = document.querySelector(".modal-manage-work-btn");
 
 btnAddPicture.addEventListener("click", () => {
-    modalBox.style.display = "none"
+    modalManageWork.style.display = "none"
     modalAddWork.style.display = "flex"
 });
 
@@ -101,7 +102,6 @@ function getCategories() {
             selectedCategoryId = option.id;
             option.textContent = category.name;
             categorySelect.appendChild(option)
-            // console.log(option.id)
         })
     }).catch(err => console.log(err))
 }
@@ -182,7 +182,7 @@ const goBack = document.querySelector('.fa-arrow-left-long')
 
 goBack.addEventListener('click', () => {
     modalAddWork.style.display = "none"
-    modalBox.style.display = "flex"
+    modalManageWork.style.display = "flex"
 })
 
 // Logique pour fermer la modale

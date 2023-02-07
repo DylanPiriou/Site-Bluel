@@ -9,6 +9,7 @@ let arrayData = [];
 window.onload = () => {
   filterByCategory("category1");
 
+
   // Ajout d'un event au clique pour chaque bouton de filtre
   categoriesBtn.forEach((category) => {
     category.addEventListener("click", (e) => {
@@ -41,7 +42,6 @@ window.onload = () => {
       fetch("http://localhost:5678/api/works")
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           // Les données reçues de l'API sont mises dans le tableau arrayData
           arrayData = data;
           filterAllData(category, filter)
@@ -87,12 +87,10 @@ window.onload = () => {
       addToGallery(element);
     })
   }
-  
+
   // Fonction qui permet d'ajouter les éléments dans la balise "gallery" via une boucle
   function addToGallery(element) {
     gallery &&
       gallery.appendChild(element)
   }
-
-
 }
