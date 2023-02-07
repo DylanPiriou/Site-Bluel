@@ -3,7 +3,7 @@
 // S'il y a un JWT alors montrer l'interface éditable
 const editingBar = document.querySelector('#editing-container')
 const editingBtns = document.querySelectorAll(".editing-btn");
-const token = localStorage.getItem("token");
+const token = sessionStorage.getItem("token");
 token && showEditing();
 
 // Apparition de l'interface éditable
@@ -54,7 +54,8 @@ function addImgsToModal(item) {
     imgCard.appendChild(trashIcon);
     // Event au click sur l'icon supprimer
     trashIcon.addEventListener('click', (e) => {
-      deleteWork(e)
+        e.preventDefault()
+        deleteWork(e)
     })
     let titleCard = document.createElement("p");
     titleCard.textContent = "éditer";
@@ -70,11 +71,13 @@ function deleteWork(e) {
             "Content-type": "application/json",
             "Authorization": `Bearer ${token}`
         }
-    }).then(res => res.json()).then(data => {
-        if (data.success) {
+    }).then(res => {
+        if (res.ok) {
             alert("Votre élément a été supprimé avec succès !")
-        }
-    }).catch(error => console.log(error))
+            arrayData = arrayData.filter(item => item.id !== imgId);
+            modalWorkGrid.innerHTML = "";
+        }})
+    .catch(error => console.log(error))
 }
 
 // Passer au bloc "ajout photo"
@@ -125,7 +128,8 @@ const addWorkBtn = document.querySelector('.modal-add-work-btn')
 let errorMsg = document.createElement('small')
 modalAddWork.appendChild(errorMsg)
 
-addWorkBtn.addEventListener('click', () => {
+addWorkBtn.addEventListener('click', (e) => {
+    e.preventDefault()
     getInputsValue()
 })
 

@@ -36,12 +36,15 @@ window.onload = () => {
   }
 
   function getWorks(category, filter) {
+    // Si array vide alors fetch sino utiliser array
     !!arrayData &&
       fetch("http://localhost:5678/api/works")
         .then((res) => res.json())
         .then((data) => {
+          console.log(data);
           // Les données reçues de l'API sont mises dans le tableau arrayData
           arrayData = data;
+          // mettre dans une fonction séparée
           let filteredData;
           if (category === "category1") {
             filteredData = arrayData;
@@ -56,29 +59,30 @@ window.onload = () => {
 
   // Fonction qui permet de créer les éléments
   function addImgsToGallery(item) {
-    let figure = document.createElement("figure");
-    let img = document.createElement("img");
+    const figure = document.createElement("figure");
+    const img = document.createElement("img");
     img.src = item.imageUrl;
     img.alt = item.title;
     img.setAttribute("crossorigin", "anonymous");
     figure.appendChild(img);
-    let figcaption = document.createElement("figcaption");
+    const figcaption = document.createElement("figcaption");
     figcaption.textContent = item.title;
     figure.appendChild(figcaption);
     return figure;
   }
 
   // Fonction qui permet d'ajouter les éléments dans la balise "gallery" via une boucle
-  function addToGallery(elements) {
+  function addToGallery(element) {
     gallery &&
-      elements.forEach((element) => gallery.appendChild(element));
+      gallery.appendChild(element)
+
   }
 
   // Parcours les éléments filtrés, crée les éléments et les ajoute à la "gallery"
   function handleGallery(filteredData) {
     filteredData.forEach((item) => {
-      let element = addImgsToGallery(item);
-      addToGallery([element]);
+      const element = addImgsToGallery(item);
+      addToGallery(element);
     })
   }
 
