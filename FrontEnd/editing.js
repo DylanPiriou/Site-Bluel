@@ -1,6 +1,7 @@
 // ------------- LOGIQUE DE L'INTERFACE EDITABLE -------------- //
 
 // S'il y a un JWT alors montrer l'interface éditable
+const body = document.querySelector("body")
 const editingBar = document.querySelector('#editing-container')
 const editingBtns = document.querySelectorAll(".editing-btn");
 const token = sessionStorage.getItem("token");
@@ -8,7 +9,8 @@ token && showEditing();
 
 // Apparition de l'interface éditable
 function showEditing() {
-    editingBar.style.display = "block"
+    body.style.marginTop = "10vh"
+    editingBar.style.display = "flex"
     editingBtns.forEach((item) => (item.style.display = "block"));
 }
 
