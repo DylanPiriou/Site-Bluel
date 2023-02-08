@@ -1,10 +1,11 @@
 // ------------- LOGIQUE DE L'INTERFACE EDITABLE -------------- //
 
-// S'il y a un JWT alors montrer l'interface éditable
 const body = document.querySelector("body")
 const editingBar = document.querySelector('#editing-container')
 const editingBtns = document.querySelectorAll(".editing-btn");
 const token = localStorage.getItem("token");
+
+// S'il y a un JWT alors montrer l'interface éditable
 token && showEditing();
 
 // Apparition de l'interface éditable
@@ -30,7 +31,7 @@ if (editingBtns) {
 
 // Gestion de la modale
 function handleModal() {
-    modalManageWork &&
+    // modalManageWork &&
         arrayData.forEach(item => {
             addImgsToModal(item)
         });
@@ -76,8 +77,8 @@ function deleteWork(e) {
     }).then(res => {
         if (res.ok) {
             // alert("Votre élément a été supprimé avec succès !")
-            // arrayData = arrayData.filter(item => item.id !== imgId);
-            handleModal()
+            arrayData = arrayData.filter(item => item.id !== imgId);
+            e.target.parentNode.remove();
         }
     })
         .catch(error => console.log(error))

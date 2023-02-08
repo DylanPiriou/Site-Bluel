@@ -12,6 +12,7 @@ const userLogin = {
 // Soummission du formulaire
 form.addEventListener("submit", handleLogin)
 
+// Contrôle du formulaire
 function handleLogin(e){
     e.preventDefault();
     const userEmail = email.value.trim()
@@ -49,7 +50,7 @@ function login() {
     }).then(res => res.json()).then(data => {
         // Si on reçoit le JWT alors stockage dans le localStorage
         data.token &&
-            localStorage.setItem("token", data.token);
-            window.location.replace("index.html");
+        localStorage.setItem("token", data.token);
+        window.location.replace("index.html");
     }).catch(err => console.log(err))
 }

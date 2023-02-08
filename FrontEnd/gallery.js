@@ -45,9 +45,11 @@ window.onload = () => {
           // Les données reçues de l'API sont mises dans le tableau arrayData
           arrayData = data;
           filterAllData(category, filter)
+          console.log("api")
         }).catch(err => console.log(err))
     } else {
       filterAllData(category, filter)
+      console.log("tableau")
     }
   }
 
