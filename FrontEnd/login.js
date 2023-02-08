@@ -4,10 +4,6 @@ const form = document.querySelector("#form-login");
 const email = document.querySelector("#mail-login");
 const password = document.querySelector("#password-login");
 const error = document.querySelector("#error");
-const userLogin = {
-  email: "sophie.bluel@test.tld",
-  password: "S0phie",
-};
 
 // Soummission du formulaire
 form.addEventListener("submit", handleLogin)
@@ -17,6 +13,7 @@ function handleLogin(e){
     e.preventDefault();
     const userEmail = email.value.trim()
     const userPassword = password.value.trim()
+    console.log(userEmail, userPassword)
     if (!userEmail || !userPassword) {
         email.value = "";
         password.value = "";
@@ -24,14 +21,7 @@ function handleLogin(e){
         setTimeout(() => {
           error.textContent = "";
         }, 2000);
-    } else if(userEmail !== userLogin.email || userPassword !== userLogin.password) {
-        email.value = "";
-        password.value = "";
-        error.textContent = "Les identifiants de connexion sont incorrectes.";
-        setTimeout(() => {
-          error.textContent = "";
-        }, 2000);
-    }else {
+    } else {
         login();
     }
 }
@@ -41,16 +31,26 @@ function login() {
     fetch(`http://localhost:5678/api/users/login`, {
         method: "POST",
         body: JSON.stringify({
-        email: email.value,
-        password: password.value,
+            email: email.value,
+            password: password.value
         }),
         headers: {
         "Content-Type": "application/json",
         },
-    }).then(res => res.json()).then(data => {
-        // Si on reçoit le JWT alors stockage dans le localStorage
-        data.token &&
-        localStorage.setItem("token", data.token);
-        window.location.replace("index.html");
-    }).catch(err => console.log(err))
+    }).then(res => {
+        if(!res.ok){
+            console.log(res)
+            email.value = "";
+            password.value = "";
+            error.textContent = "Les identifiants de connexion sont incorrectes.";
+            setTimeout(() => {
+            error.textContent = "";
+            }, 2000);
+        } else {
+            res.json().then(data => {
+                let token = data.token;
+                token && localStorage.setItem("token", token)
+                window.location.replace("index.html")
+            })
+        }}).catch(err => console.log(err))
 }
