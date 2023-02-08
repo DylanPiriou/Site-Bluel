@@ -6,14 +6,13 @@ const password = document.querySelector("#password-login");
 const error = document.querySelector("#error");
 
 // Soummission du formulaire
-form.addEventListener("submit", handleLogin)
+localStorage.getItem('token') ? showEditing() : form.addEventListener("submit", handleLogin)
 
 // Contrôle du formulaire
 function handleLogin(e){
     e.preventDefault();
     const userEmail = email.value.trim()
     const userPassword = password.value.trim()
-    console.log(userEmail, userPassword)
     if (!userEmail || !userPassword) {
         email.value = "";
         password.value = "";
