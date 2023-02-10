@@ -14,12 +14,7 @@ function handleLogin(e){
     const userEmail = email.value.trim()
     const userPassword = password.value.trim()
     if (!userEmail || !userPassword) {
-        email.value = "";
-        password.value = "";
-        error.textContent = "Tous les champs doivent être remplis.";
-        setTimeout(() => {
-          error.textContent = "";
-        }, 2000);
+        displayErrorMsg("Veuillez remplir tous les champs.")
     } else {
         login();
     }
@@ -38,18 +33,25 @@ function login() {
         },
     }).then(res => {
         if(!res.ok){
-            console.log(res)
-            email.value = "";
-            password.value = "";
-            error.textContent = "Les identifiants de connexion sont incorrectes.";
-            setTimeout(() => {
-            error.textContent = "";
-            }, 2000);
+            displayErrorMsg("Les identifiants de connexion sont incorrectes.")
         } else {
             res.json().then(data => {
+                displayErrorMsg("Connexion réussie ! Redirection....", "green")
                 let token = data.token;
                 token && localStorage.setItem("token", token)
-                window.location.replace("index.html")
+                setTimeout(() => {
+                    window.location.replace("index.html")
+                }, 1500);
             })
         }}).catch(err => console.log(err))
+}
+
+function displayErrorMsg(txt, color){
+    email.value = "";
+    password.value = "";
+    error.textContent = txt;
+    error.style.color = color;
+    setTimeout(() => {
+      error.textContent = "";
+    }, 2000);
 }

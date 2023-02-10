@@ -1,9 +1,11 @@
+// import { handleModalWithData } from "./editing.js";
+
 // ------------- LOGIQUE DE LA GALLERIE -------------- //
 
 const categoriesBtn = document.querySelectorAll(".filter-button");
 const gallery = document.querySelector(".gallery");
 const modalWorkGrid = document.querySelector(".modal-work-grid");
-let arrayData = [];
+export var arrayData = []
 
 // Charge la catégorie "Tous" par défaut au chargement de la page
 filterByCategory("category1");
@@ -44,7 +46,7 @@ function getWorks(category, filter) {
             }).catch(err => console.log(err))
     } else {
         filterAllData(category, filter)
-        console.log(arrayData)
+        console.log(arrayData.map(obj => obj.id))
     }
 }
 
@@ -94,13 +96,13 @@ const editingBtns = document.querySelectorAll(".editing-btn");
 const token = localStorage.getItem("token");
 
 // S'il y a un JWT alors montrer l'interface éditable
-token && showEditingMode();
+token && showEditing();
 
 // Apparition de l'interface éditable
-function showEditingMode() {
+function showEditing() {
     body.style.marginTop = "10vh"
     editingBar.style.display = "flex"
-    editingBtns.forEach((btn) => (btn.style.display = "block"));
+    editingBtns.forEach((item) => (item.style.display = "block"));
 }
 
 // Apparition de la modale au click
@@ -110,80 +112,89 @@ const modalAddWork = document.querySelector('.modal-add-work')
 if (editingBtns) {
     editingBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
-            showModal()
+            modal.style.display = "flex"
+            // Permet de revenir tout le temps à la première modale en ouvrant
+            modalManageWork.style.display = "flex";
         })
     })
 }
 
-function showModal() {
-    modal.style.display = "flex"
-    modalManageWork.style.display = "flex";
-}
-
-// Gestion de la modale avec le contenu de arrayData
-function handleModalWithData() {
-    showModal &&
+// Gestion de la modale
+export function handleModalWithData() {
+    // modalManageWork &&
         arrayData.forEach(item => {
             createImgsForModal(item)
         });
 }
 
-// Fonction qui permet de créer les images dans la modale
+// Fonction qui permet d'ajouter les images à la modale
 function createImgsForModal(item) {
-    const figure = document.createElement("figure");
-    figure.className = "modal-work-card"
-    const img = document.createElement("img");
+    // Création des images
+    let imgCard = document.createElement("div");
+    imgCard.className = "modal-work-card"
+    let img = document.createElement("img");
     img.src = item.imageUrl;
-    img.alt = item.title;
-    img.id = item.id;
     img.setAttribute("crossorigin", "anonymous");
-    figure.appendChild(img);
-    modalWorkGrid.appendChild(figure);
-    const arrowIcon = document.createElement('i')
-    const trashIcon = document.createElement('i')
+    imgCard.appendChild(img);
+    modalWorkGrid.appendChild(imgCard);
+    // Création des icons
+    let arrowIcon = document.createElement('i')
+    let trashIcon = document.createElement('i')
     arrowIcon.className = "fa-solid fa-arrows-up-down-left-right"
     trashIcon.className = "fa-solid fa-trash-can"
     trashIcon.id = item.id
-    figure.appendChild(arrowIcon);
-    figure.appendChild(trashIcon);
+    imgCard.appendChild(arrowIcon);
+    imgCard.appendChild(trashIcon);
     // Event au click sur l'icon supprimer
-    handleDeleteEvent(trashIcon)
-    const figcaption = document.createElement("figcaption");
-    figcaption.textContent = "éditer";
-    figure.appendChild(figcaption);
-}
-
-function handleDeleteEvent(element) {
-    element.addEventListener('click', (e) => {
+    trashIcon.addEventListener('click', (e) => {
         e.preventDefault()
-        const imgId = e.target.id;
-        deleteWork(imgId)
+        deleteWork(e)
     })
+    let titleCard = document.createElement("p");
+    titleCard.textContent = "éditer";
+    imgCard.appendChild(titleCard);
 }
 
 // Suppression des travaux
-function deleteWork(id) {
-    fetch(`http://localhost:5678/api/works/${id}`, {
+const infoMsg = document.querySelector(".info")
+
+function deleteWork(e) {
+    const imgId = parseInt(e.target.id);
+    fetch(`http://localhost:5678/api/works/${imgId}`, {
         method: 'DELETE',
         headers: {
-            "Content-type": "application/json",
-            "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
         }
-    }).then(res => {
-        if (!res.ok) {
-            throw new Error("Erreur lors de la suppression")
+    }).then(response => {
+        if (response.status === 204) {
+          console.log('Item deleted successfully');
+          showChange(imgId)
+          displayMsgDelete()
+        } else if (response.status === 404) {
+          console.error('Item not found');
         } else {
-            // gallery.innerHTML = "";
-            // modalWorkGrid.innerHTML = "";
-            // newData = arrayData.filter(work => work.id !== id)
-            let index = arrayData.findIndex(work => work.id === id);
-            if (index !== -1) {
-              arrayData.splice(index, 1);
-            }
+          console.error('An error occurred');
         }
-        // handleGalleryWithData(newData)
-        // handleModalWithData();
-    }).catch(error => console.log(error))
+      })
+      .catch(error => {
+        console.error(error);
+      });
+}
+
+function displayMsgDelete(){
+    infoMsg.textContent = "Travail supprimé avec succès !"
+    infoMsg.style.color = "green"
+    setTimeout(() => {
+      infoMsg.textContent = "Supprimer la gellerie"
+      infoMsg.style.color = "#d65353"
+    }, 2000);
+}
+
+function showChange(id){
+    modalWorkGrid.innerHTML = "";
+    handleModalWithData()
 }
 
 // Passer au bloc "ajout photo"
@@ -196,9 +207,10 @@ btnAddPicture.addEventListener("click", () => {
 
 // Logique du choix des catégories
 const categorySelect = document.querySelector('#category-select')
+let selectedCategoryId;
 function getCategories() {
     fetch(`http://localhost:5678/api/categories`).then(res => res.json()).then(data => {
-        data.map(category => {
+        data.forEach(category => {
             let option = document.createElement('option')
             option.id = category.id;
             selectedCategoryId = option.id;
@@ -234,7 +246,6 @@ modalAddWork.appendChild(errorMsg)
 
 addWorkBtn.addEventListener('click', (e) => {
     e.preventDefault()
-    e.stopPropagation()
     handleInputsValueToAddWork()
 })
 
@@ -254,7 +265,7 @@ function handleInputsValueToAddWork() {
         inputTitle.value = "";
     } else {
         addWork(fileValue, titleValue, categoryId)
-        errorMsg.textContent = "Contenu ajouté avec succès !"
+        errorMsg.textContent = "Travail ajouté avec succès ! Redirection..."
         errorMsg.style.color = "green"
         setTimeout(() => {
             errorMsg.textContent = ""
@@ -270,22 +281,26 @@ function addWork(file, title, category) {
     formData.append("image", file)
     formData.append("title", title)
     formData.append("category", category)
-    const newWork = {
-        file: file,
-        title: title,
-        category: category
-        };
     fetch(`http://localhost:5678/api/works`, {
         method: "POST",
         body: formData,
         headers: {
             "Authorization": `Bearer ${token}`
         },
-    }).then(res => {
-        if (res.ok) {
-            res.json();
-            arrayData.push(newWork);
-        }}).catch(err => console.log(err))
+    }).then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setTimeout(() => {
+            modalAddWork.style.display = "none";
+            modalManageWork.style.display = "flex";
+        }, 1500);
+        // Ajout dans la modale
+        createImgsForModal(data)
+        // Ajout das la gallery
+        const newWork = createImgsForGallery(data)
+        gallery.appendChild(newWork);
+      })
+      .catch(err => console.log(err))
 }
 
 // Logique de la flèche pour revenir en arrière

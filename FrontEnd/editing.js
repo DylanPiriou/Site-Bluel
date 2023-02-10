@@ -1,3 +1,5 @@
+// import { handleGalleryWithData } from "./gallery.js";
+
 // // ------------- LOGIQUE DE L'INTERFACE EDITABLE -------------- //
 
 // const body = document.querySelector("body")
@@ -30,7 +32,7 @@
 // }
 
 // // Gestion de la modale
-// function handleModalWithData() {
+// export function handleModalWithData() {
 //     // modalManageWork &&
 //         arrayData.forEach(item => {
 //             createImgsForModal(item)
@@ -67,22 +69,33 @@
 
 // // Suppression des travaux
 // function deleteWork(e) {
-//     const imgId = e.target.id;
+//     const imgId = parseInt(e.target.id);
 //     fetch(`http://localhost:5678/api/works/${imgId}`, {
 //         method: 'DELETE',
 //         headers: {
-//             "Content-type": "application/json",
-//             "Authorization": `Bearer ${token}`
+//             "Authorization": `Bearer ${token}`,
+//             'Accept': 'application/json',
+//             'Content-Type': 'application/json'
 //         }
-//     }).then(res => {
-//         if (res.ok) {
-//             // alert("Votre élément a été supprimé avec succès !")
-//             arrayData = arrayData.filter(item => item.id !== imgId);
-//             modalWorkGrid.innerHTML = "";
-//             arrayData.forEach(item => createImgsForModal(item))
-//             console.log("élément supprimé avec succès")
+//     }).then(response => {
+//         if (response.status === 204) {
+//           console.log('Item deleted successfully');
+//           showChange(imgId)
+//         } else if (response.status === 404) {
+//           console.error('Item not found');
+//         } else {
+//           console.error('An error occurred');
 //         }
-//     }).catch(error => console.log(error))
+//       })
+//       .catch(error => {
+//         console.error(error);
+//       });
+// }
+
+// function showChange(id){
+//     const newData = arrayData.filter(work => work.id !== id)
+//     handleGalleryWithData(newData)
+//     handleModalWithData()
 // }
 
 // // Passer au bloc "ajout photo"
