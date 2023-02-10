@@ -68,6 +68,7 @@ function filterAllData(category, filter) {
 // Fonction qui permet de créer les éléments dans la gallerie
 function createImgsForGallery(item) {
     const figure = document.createElement("figure");
+    figure.id = item.id;
     const img = document.createElement("img");
     img.src = item.imageUrl;
     img.alt = item.title;
@@ -132,6 +133,7 @@ function createImgsForModal(item) {
     // Création des images
     let imgCard = document.createElement("div");
     imgCard.className = "modal-work-card"
+    imgCard.id = item.id;
     let img = document.createElement("img");
     img.src = item.imageUrl;
     img.setAttribute("crossorigin", "anonymous");
@@ -170,7 +172,7 @@ function deleteWork(e) {
     }).then(response => {
         if (response.status === 204) {
           console.log('Item deleted successfully');
-          showChange(imgId)
+          handleDelete(imgId)
           displayMsgDelete()
         } else if (response.status === 404) {
           console.error('Item not found');
@@ -187,14 +189,26 @@ function displayMsgDelete(){
     infoMsg.textContent = "Travail supprimé avec succès !"
     infoMsg.style.color = "green"
     setTimeout(() => {
-      infoMsg.textContent = "Supprimer la gellerie"
+      infoMsg.textContent = "Supprimer la galerie"
       infoMsg.style.color = "#d65353"
     }, 2000);
 }
 
-function showChange(id){
+function handleDelete(id){
+    // Cibler l'objet à supprimer
+    const workToDelete = arrayData.find(work => work.id === id)
+    console.log(workToDelete)
+    // Supprimer l'objet
+    arrayData = arrayData.filter(function(obj){
+        return obj !== workToDelete;
+    })
     modalWorkGrid.innerHTML = "";
     handleModalWithData()
+    gallery.innerHTML = "";
+    arrayData.forEach((item) => {
+        const element = createImgsForGallery(item);
+        gallery.appendChild(element)
+    })
 }
 
 // Passer au bloc "ajout photo"
@@ -289,7 +303,6 @@ function addWork(file, title, category) {
         },
     }).then(res => res.json())
       .then(data => {
-        console.log(data)
         setTimeout(() => {
             modalAddWork.style.display = "none";
             modalManageWork.style.display = "flex";
