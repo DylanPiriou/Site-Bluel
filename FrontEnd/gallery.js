@@ -1,11 +1,9 @@
-// import { handleModalWithData } from "./editing.js";
-
 // ------------- LOGIQUE DE LA GALLERIE -------------- //
 
 const categoriesBtn = document.querySelectorAll(".filter-button");
 const gallery = document.querySelector(".gallery");
 const modalWorkGrid = document.querySelector(".modal-work-grid");
-export var arrayData = []
+let arrayData = []
 
 // Charge la catégorie "Tous" par défaut au chargement de la page
 filterByCategory("category1");
@@ -39,8 +37,7 @@ function getWorks(category, filter) {
         fetch("http://localhost:5678/api/works")
             .then((res) => res.json())
             .then((data) => {
-                // Les données reçues de l'API sont mises dans le tableau arrayData
-                arrayData = data
+                arrayData = data // Les données reçues de l'API sont mises dans le tableau arrayData
                 filterAllData(category, filter)
                 console.log("data from api")
             }).catch(err => console.log(err))
@@ -54,8 +51,7 @@ function getWorks(category, filter) {
 function filterAllData(category, filter) {
     let filteredData;
     if (category === "category1") {
-        // On affiche tout
-        filteredData = arrayData;
+        filteredData = arrayData; // On affiche tout
     } else {
         // On filtre l'affichage en fonction du nom de la catégorie
         const value = filter.get(category);
@@ -68,7 +64,7 @@ function filterAllData(category, filter) {
 // Fonction qui permet de créer les éléments dans la gallerie
 function createImgsForGallery(item) {
     const figure = document.createElement("figure");
-    figure.id = item.id;
+    figure.className = `work${item.id}`;
     const img = document.createElement("img");
     img.src = item.imageUrl;
     img.alt = item.title;
@@ -96,7 +92,7 @@ const editingBar = document.querySelector('#editing-container')
 const editingBtns = document.querySelectorAll(".editing-btn");
 const token = localStorage.getItem("token");
 
-// S'il y a un JWT alors montrer l'interface éditable
+// S'il y a un JWT dans le localStorage alors montrer l'interface éditable
 token && showEditing();
 
 // Apparition de l'interface éditable
@@ -120,9 +116,8 @@ if (editingBtns) {
     })
 }
 
-// Gestion de la modale
-export function handleModalWithData() {
-    // modalManageWork &&
+// Repmlissage de la modale grâce aux données de arrayData
+function handleModalWithData() {
         arrayData.forEach(item => {
             createImgsForModal(item)
         });
@@ -132,8 +127,8 @@ export function handleModalWithData() {
 function createImgsForModal(item) {
     // Création des images
     let imgCard = document.createElement("div");
-    imgCard.className = "modal-work-card"
-    imgCard.id = item.id;
+    imgCard.classList.add("modal-work-card", `work${item.id}`)
+    // imgCard.id = item.id;
     let img = document.createElement("img");
     img.src = item.imageUrl;
     img.setAttribute("crossorigin", "anonymous");
@@ -148,20 +143,26 @@ function createImgsForModal(item) {
     imgCard.appendChild(arrowIcon);
     imgCard.appendChild(trashIcon);
     // Event au click sur l'icon supprimer
-    trashIcon.addEventListener('click', (e) => {
-        e.preventDefault()
-        deleteWork(e)
-    })
+    handleEventToDelete(trashIcon)
     let titleCard = document.createElement("p");
     titleCard.textContent = "éditer";
     imgCard.appendChild(titleCard);
 }
 
-// Suppression des travaux
+// -------------- SUPPRESSION DE TRAVAUX ---------------- // 
+
+function handleEventToDelete(element){
+    element.addEventListener('click', (e) => {
+        e.preventDefault()
+        deleteWork(e)
+    })
+}
+
 const infoMsg = document.querySelector(".info")
 
+// Fonction pour supprimer un travail avec l'API
 function deleteWork(e) {
-    const imgId = parseInt(e.target.id);
+    const imgId = e.target.id;
     fetch(`http://localhost:5678/api/works/${imgId}`, {
         method: 'DELETE',
         headers: {
@@ -185,6 +186,37 @@ function deleteWork(e) {
       });
 }
 
+// Fonction pour actualiser l'interface de manière dynamique
+function handleDelete(id){
+    // Cibler l'objet à supprimer
+    console.log(arrayData)
+    const workToDelete = arrayData.find(work => work.id === id)
+    // Supprimer l'objet et actualiser arrayData
+    arrayData = arrayData.filter(function(obj){
+        return obj !== workToDelete;
+    })
+    console.log(arrayData)
+
+    // Actualiser la modale
+    modalWorkGrid.innerHTML = "";
+    handleModalWithData()
+
+    // Actualiser la gallerie
+    gallery.innerHTML = "";
+    arrayData.forEach((item) => {
+        const element = createImgsForGallery(item);
+        gallery.appendChild(element)
+    })
+
+    // Récupération des éléments qui ont les classe "work${id}"
+    const figures = document.querySelectorAll(`.work${id}`);
+    const divs = document.querySelectorAll(`work${id}`);
+
+    // Logique pour supprimer les éléments "figure" et "div" qui ont une classe qui contient l'id
+    figures.forEach((figure) => figure.remove());
+    divs.forEach((div) => div.remove());
+}
+
 function displayMsgDelete(){
     infoMsg.textContent = "Travail supprimé avec succès !"
     infoMsg.style.color = "green"
@@ -194,34 +226,12 @@ function displayMsgDelete(){
     }, 2000);
 }
 
-function handleDelete(id){
-    // Cibler l'objet à supprimer
-    const workToDelete = arrayData.find(work => work.id === id)
-    console.log(workToDelete)
-    // Supprimer l'objet
-    arrayData = arrayData.filter(function(obj){
-        return obj !== workToDelete;
-    })
-    modalWorkGrid.innerHTML = "";
-    handleModalWithData()
-    gallery.innerHTML = "";
-    arrayData.forEach((item) => {
-        const element = createImgsForGallery(item);
-        gallery.appendChild(element)
-    })
-}
+// ----------------- AJOUT DE TRAVAUX DANS LA MODALE ----------------- //
 
-// Passer au bloc "ajout photo"
-const btnAddPicture = document.querySelector(".modal-manage-work-btn");
-
-btnAddPicture.addEventListener("click", () => {
-    modalManageWork.style.display = "none"
-    modalAddWork.style.display = "flex"
-});
-
-// Logique du choix des catégories
+// Logique du choix des catégories dans le formulaire
 const categorySelect = document.querySelector('#category-select')
 let selectedCategoryId;
+
 function getCategories() {
     fetch(`http://localhost:5678/api/categories`).then(res => res.json()).then(data => {
         data.forEach(category => {
@@ -253,7 +263,7 @@ inputFile.addEventListener('change', () => {
     reader.readAsDataURL(file);
 });
 
-// Logique de l'ajout des travaux
+// Logique de l'ajout des travaux dans la modale
 const addWorkBtn = document.querySelector('.modal-add-work-btn')
 let errorMsg = document.createElement('small')
 modalAddWork.appendChild(errorMsg)
@@ -269,27 +279,25 @@ function handleInputsValueToAddWork() {
     let categoryId = +categorySelect.selectedOptions[0].id
 
     if (!fileValue || !titleValue || !categoryId) {
-        errorMsg.textContent = "Tous les champs doivent être remplis."
-        errorMsg.style.color = "#D65353"
-        setTimeout(() => {
-            errorMsg.textContent = ""
-        }, 2000);
-        inputFile.value = "";
-        imgPreview.src = "";
-        inputTitle.value = "";
+        handleInfosMsgToAddWork("Tous les champs doivent être remplis.", "#D65353")
     } else {
         addWork(fileValue, titleValue, categoryId)
-        errorMsg.textContent = "Travail ajouté avec succès ! Redirection..."
-        errorMsg.style.color = "green"
-        setTimeout(() => {
-            errorMsg.textContent = ""
-        }, 2000);
-        inputFile.value = "";
-        imgPreview.src = "";
-        inputTitle.value = "";
+        handleInfosMsgToAddWork("Travail ajouté avec succès ! Redirection...", "green")
     }
 }
 
+function handleInfosMsgToAddWork(msg, color){
+    errorMsg.textContent = msg
+    errorMsg.style.color = color
+    setTimeout(() => {
+        errorMsg.textContent = ""
+    }, 2000);
+    inputFile.value = "";
+    imgPreview.src = "";
+    inputTitle.value = "";
+}
+
+// Appel à l'API pour ajouter des travaux
 function addWork(file, title, category) {
     let formData = new FormData();
     formData.append("image", file)
@@ -309,12 +317,22 @@ function addWork(file, title, category) {
         }, 1500);
         // Ajout dans la modale
         createImgsForModal(data)
-        // Ajout das la gallery
+        // Ajout dans la gallery
         const newWork = createImgsForGallery(data)
         gallery.appendChild(newWork);
       })
       .catch(err => console.log(err))
 }
+
+// --------------- NAVIGATION DANS LA MODALE --------------- //
+
+// Passer au bloc "ajout photo"
+const btnAddPicture = document.querySelector(".modal-manage-work-btn");
+
+btnAddPicture.addEventListener("click", () => {
+    modalManageWork.style.display = "none"
+    modalAddWork.style.display = "flex"
+});
 
 // Logique de la flèche pour revenir en arrière
 const goBack = document.querySelector('.fa-arrow-left-long')

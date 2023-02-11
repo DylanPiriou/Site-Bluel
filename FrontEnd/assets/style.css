@@ -484,6 +484,16 @@ input[type="file"]{
 	opacity: 0;
 }
 
+.img-box{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: auto;
+	height: 100%;
+	object-fit: cover;
+}
+
 .download-box small{
 	color: #444;
 }

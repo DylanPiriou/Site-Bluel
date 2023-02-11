@@ -46,6 +46,7 @@ function login() {
         }}).catch(err => console.log(err))
 }
 
+// Fonction pour la gestion des messages d'erreur/réussite
 function displayErrorMsg(txt, color){
     email.value = "";
     password.value = "";
