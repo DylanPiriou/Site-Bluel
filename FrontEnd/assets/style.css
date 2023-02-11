@@ -162,6 +162,7 @@ li.active{
 .filters{
 	width: 100%;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
@@ -472,7 +473,7 @@ select{
 	width: 173px;
 	height: 36px;
 	border-radius: 50px;
-	margin-bottom: 7px;
+	margin: 21px 0 7px;
 	background: #cbd6dc;
 }
 
@@ -481,16 +482,6 @@ input[type="file"]{
 	width: 100%;
 	height: 100%;
 	opacity: 0;
-}
-
-.img-box{
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	width: auto;
-	height: 100%;
-	object-fit: cover;
 }
 
 .download-box small{

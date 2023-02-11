@@ -20,7 +20,7 @@
   </head>
   <body>
 
-    <!-- Bloc "editing" en haut de la page -->
+    <!-- Bloc "Mode édition" en haut de la page -->
     <aside id="editing-container">
       <div class="top-editing-box">
         <span>Mode édition</span>
@@ -28,10 +28,11 @@
       </div>
     </aside>
 
-    <!-- Modal d'édition -->
-    <div class="modal-container">
+    <!-- Section modale -->
+    <aside class="modal-container">
+      <!-- Fenêtre modale -->
       <div class="modal-box">
-        <!-- Modal avec la galerie photos -->
+        <!-- Modal de gestion des travaux -->
         <div class="modal-manage-work">
           <i class="fa-solid fa-xmark"></i>
           <h3 class="modal-title">Galerie photo</h3>
@@ -41,37 +42,40 @@
         </div>
 
         <!-- Modal ajout photos -->
-        <div class="modal-add-work" style="display: none;">
+        <div class="modal-add-work" style="display: none">
           <i class="fa-sharp fa-solid fa-arrow-left-long"></i>
           <i class="fa-solid fa-xmark"></i>
           <h3 class="modal-title">Ajout photo</h3>
-            <form>
-              <div class="download-box">
-                <div class="download-btn">
-                  <div class="download-btn-content">
-                    <i class="fa-sharp fa-solid fa-plus"></i>
-                    <p>Ajouter photo</p>
-                  </div>
+          <form>
+            <!-- Bloc pour uploader les images -->
+            <div class="download-box">
+              <img src="./assets//icons//icon-download-files.svg" />
+              <div class="download-btn">
+                <div class="download-btn-content">
+                  <i class="fa-sharp fa-solid fa-plus"></i>
+                  <p>Ajouter photo</p>
                 </div>
-                <input type="file" id="input-file">
-                <small>jpg, png : 4mo max</small>
+                <input type="file" id="input-file" />
               </div>
-
-              <div class="title-box">
+              <small>jpg, png : 4mo max</small>
+            </div>
+            <!-- Bloc pour le titre -->
+            <div class="title-box">
               <label for="title">Titre</label>
-              <input type="text" name="title" id="title-btn">
-              </div>
-              <div class="category-box">
+              <input type="text" name="title" id="title-btn" />
+            </div>
+            <!-- Bloc pour la catégorie -->
+            <div class="category-box">
               <label for="category">Catégorie</label>
               <select name="category" id="category-select"></select>
-              </div>
-            </form>
+            </div>
+          </form>
           <button class="modal-add-work-btn" type="submit">Valider</button>
         </div>
       </div>
-    </div>
+    </aside>
 
-    <!-- Site sans la modale -->
+    <!-- Portfolio Sophie Bluel -->
     <header>
       <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
       <nav>
@@ -87,10 +91,16 @@
       <section id="introduction">
         <figure>
           <img src="./assets/images/sophie-bluel.png" alt="" />
-          <button class="editing-btn" id="picture-btn"><i class="fa-regular fa-pen-to-square"></i>modifier</button>
+          <button class="editing-btn" id="picture-btn">
+            <i class="fa-regular fa-pen-to-square"></i>modifier
+          </button>
         </figure>
         <article>
-          <h2><button class="editing-btn" id="intro-btn"><i class="fa-regular fa-pen-to-square"></i>modifier</button>Designer d'espace</h2>
+          <h2>
+            <button class="editing-btn" id="intro-btn">
+              <i class="fa-regular fa-pen-to-square"></i>modifier</button
+            >Designer d'espace
+          </h2>
           <p>
             Je raconte votre histoire, je valorise vos idées. Je vous accompagne
             de la conception à la livraison finale du chantier.
@@ -109,7 +119,11 @@
         </article>
       </section>
       <section id="portfolio">
-        <h2>Mes Projets<button class="editing-btn" id="work-btn"><i class="fa-regular fa-pen-to-square"></i>modifier</button></h2>
+        <h2>
+          Mes Projets<button class="editing-btn" id="work-btn">
+            <i class="fa-regular fa-pen-to-square"></i>modifier
+          </button>
+        </h2>
         <div class="filters">
           <button class="filter-button" data-category="category1">Tous</button>
           <button class="filter-button" data-category="category2">
