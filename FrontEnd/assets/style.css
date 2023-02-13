@@ -95,23 +95,29 @@ nav ul a{
 	color: #000;
 }
 
-nav li {
+nav li,
+nav a {
 	padding: 0 10px;
-	font-size: 1.2em;
+	font-size: 16.7px;
 	/* Modif */
 	cursor: pointer;
 }
 
-li:hover {
+li:hover,
+a:hover {
 	color: #B1663C;
 }
-li.active{
+
+li.active,
+a.active {
 	font-weight: bold;
 }
+
 #introduction {
 	display: flex;
 	align-items: center;
 }
+
 #introduction figure {
 	flex: 1;
 	position: relative;

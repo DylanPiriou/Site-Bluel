@@ -106,10 +106,24 @@ function filterAndDisplayData(selectedCategory, filterMap) {
 const body = document.querySelector("body")
 const editingBar = document.querySelector('#editing-container')
 const editingBtns = document.querySelectorAll(".editing-btn");
+const authBtn = document.querySelector(".auth")
 const token = localStorage.getItem("token");
 
 // S'il y a un JWT dans le localStorage alors montrer l'interface éditable
 token && showEditing();
+
+// Gestion de la déconnexion
+function handleAuth(){
+    if (token){
+        authBtn.textContent = "logout";
+        authBtn.href = "#"
+        authBtn.addEventListener("click", () => {
+            localStorage.clear()
+            location.reload()
+        })
+    }
+}
+handleAuth()
 
 // Apparition de l'interface éditable
 function showEditing() {
