@@ -153,6 +153,8 @@ const btnAddPicture = document.querySelector(".modal-manage-work-btn");
 btnAddPicture.addEventListener("click", () => {
     modalManageWork.style.display = "none"
     modalAddWork.style.display = "flex"
+    dlBtn.style.display = "block";
+    infosDl.style.display = "block";
 });
 
 // Logique de la flèche pour revenir en arrière

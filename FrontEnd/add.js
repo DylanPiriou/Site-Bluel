@@ -22,6 +22,8 @@ const downloadBox = document.querySelector('.download-box')
 const inputFile = document.querySelector('#input-file')
 const imgPreview = document.createElement('img');
 imgPreview.className = "img-box"
+const dlBtn = document.querySelector(".download-btn")
+const infosDl = document.querySelector(".download-box small")
 
 inputFile.addEventListener('change', () => {
     const file = inputFile.files[0];
@@ -29,7 +31,9 @@ inputFile.addEventListener('change', () => {
 
     reader.onload = (e) => {
         imgPreview.src = e.target.result;
-        downloadBox.appendChild(imgPreview)
+        downloadBox.appendChild(imgPreview);
+        dlBtn.style.display = "none";
+        infosDl.style.display = "none";
     };
 
     reader.readAsDataURL(file);
@@ -64,6 +68,8 @@ function handleInfosMsgToAddWork(msg, color) {
     setTimeout(() => {
         errorMsg.textContent = ""
     }, 2000);
+    dlBtn.style.display = "block";
+    infosDl.style.display = "block";
     inputFile.value = "";
     imgPreview.src = "";
     inputTitle.value = "";
