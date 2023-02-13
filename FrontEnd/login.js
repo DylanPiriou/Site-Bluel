@@ -6,7 +6,7 @@ const password = document.querySelector("#password-login");
 const error = document.querySelector("#error");
 
 // Soummission du formulaire
-localStorage.getItem('token') ? showEditing() : form.addEventListener("submit", handleLogin)
+form.addEventListener("submit", handleLogin)
 
 // Contrôle du formulaire
 function handleLogin(e){
