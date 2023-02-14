@@ -54,8 +54,8 @@ function filterAndDisplayData(selectedCategory, filterMap) {
     if (selectedCategory === "category1") {
         filteredData = arrayData;
     } else {
-        const value = parseInt(filterMap.get(selectedCategory));
-        filteredData = arrayData.filter((work) => work.categoryId === value);
+        const value = ""+filterMap.get(selectedCategory);
+        filteredData = arrayData.filter((work) => ""+work.categoryId === value);
     }
     fillGalleryWithWorks(filteredData)
     fillModalWithWorks();

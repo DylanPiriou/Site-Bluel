@@ -38,8 +38,9 @@ function deleteWork(e) {
 // Fonction pour actualiser l'interface de manière dynamique
 function handleDelete(id) {
     // Supprimer le travail correspondant à l'id dans le tableau
-    arrayData.filter(item => item.id !== id);
+    arrayData = arrayData.filter(item => ""+item.id !== ""+id);
     filteredData = arrayData
+
     // Actualiser la modale
     galleryModal.innerHTML = "";
     fillModalWithWorks()
@@ -49,10 +50,10 @@ function handleDelete(id) {
     fillGalleryWithWorks(filteredData)
 
     // Récupération des éléments qui ont les classe "work${id}"
-    const works = document.querySelectorAll(`.work${id}`);
+    // const works = document.querySelectorAll(`.work${id}`);
 
-    // Logique pour supprimer les éléments qui ont une classe qui contient l'id
-    works.forEach((work) => work.remove());
+    // // Logique pour supprimer les éléments qui ont une classe qui contient l'id
+    // works.forEach((work) => work.remove());
 }
 
 function displayMsgDelete() {
