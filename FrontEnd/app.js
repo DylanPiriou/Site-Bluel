@@ -6,7 +6,7 @@ const galleryModal = document.querySelector(".modal-work-grid");
 let arrayData = []
 let filteredData = [];
 
-// Logique de filtrage
+// Logique de filtrage avec Map
 function logicForCategory(selectedCategory) {
     const filterMap = new Map();
     filterMap.set("category1", "");
@@ -16,11 +16,12 @@ function logicForCategory(selectedCategory) {
     getWorks(selectedCategory, filterMap)
 }
 
+// Chargement de tous les travaux au chargement de la page
 window.onload = () => {
     logicForCategory("category1")
 }
 
-// Ajout d'un evenement au clique pour chaque bouton de filtre
+// Ajout d'un evenement au clique pour chaque bouton de filtre et gestion de son style
 function handleCategoryButtons() {
     categoriesBtn.forEach((btn) => {
         btn.addEventListener("click", (e) => {
@@ -35,7 +36,7 @@ function handleCategoryButtons() {
 }
 handleCategoryButtons()
 
-// Fonction qui recupère les données soit de l'API soit du tableau
+// Fonction qui recupère les données soit de l'API soit du tableau arrayData
 function getWorks(selectedCategory, filterMap) {
     if (arrayData.length === 0) {
         fetch("http://localhost:5678/api/works")
@@ -80,7 +81,7 @@ function filterAndDisplayData(selectedCategory, filterMap) {
         <button class="fa-solid fa-trash-can itemtrash" id=${item.id}></button>
         <figcaption>éditer</figcaption>`
         const trashBtn = figure.querySelector(".itemtrash");
-        handleEventToDelete(trashBtn)
+        handleEventToDelete(trashBtn) // Logique dans le fichier delete.js
         return figure;
     }
 
@@ -171,12 +172,14 @@ goBack.addEventListener('click', () => {
 const closeBtns = document.querySelectorAll('.fa-xmark')
 const inputTitle = document.querySelector("#title-btn")
 
+// Au clique sur la croix
 closeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         closeModal()
     })
 })
 
+// Au clique hors de la modale
 document.addEventListener('click', (e) => {
     e.target === modal && closeModal()
 })

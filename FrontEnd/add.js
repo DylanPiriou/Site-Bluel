@@ -49,11 +49,12 @@ addWorkBtn.addEventListener('click', (e) => {
     handleInputsValueToAddWork()
 })
 
+// Vérification que tous les champs sont remplis
 function handleInputsValueToAddWork() {
     let fileValue = inputFile.files[0];
     let titleValue = inputTitle.value;
     let categoryId = +categorySelect.selectedOptions[0].id
-
+    
     if (!fileValue || !titleValue || !categoryId) {
         handleInfosMsgToAddWork("Tous les champs doivent être remplis.", "#D65353")
     } else {
@@ -62,6 +63,7 @@ function handleInputsValueToAddWork() {
     }
 }
 
+// Gestion des messages d'erreur/succès et de l'interface lors de l'ajout
 function handleInfosMsgToAddWork(msg, color) {
     errorMsg.textContent = msg
     errorMsg.style.color = color
@@ -89,7 +91,6 @@ function addWork(file, title, category) {
         },
     }).then(res => res.json())
         .then(data => {
-            console.log(data.categoryId)
             setTimeout(() => {
                 modalAddWork.style.display = "none";
                 modalManageWork.style.display = "flex";

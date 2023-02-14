@@ -23,11 +23,13 @@ function deleteWork(e) {
         if (response.status === 204) {
             console.log('Item deleted successfully');
             handleDelete(imgId)
-            displayMsgDelete()
+            displayMsgDelete("Travail supprimé avec succès !", "green")
         } else if (response.status === 404) {
             console.error('Item not found');
+            displayMsgDelete("Un problème est survenu... Veuillez réessayer.")
         } else {
             console.error('An error occurred');
+            displayMsgDelete("Un problème est survenu... Veuillez réessayer.")
         }
     })
         .catch(error => {
@@ -48,17 +50,12 @@ function handleDelete(id) {
     // Actualiser la gallerie
     gallery.innerHTML = "";
     fillGalleryWithWorks(filteredData)
-
-    // Récupération des éléments qui ont les classe "work${id}"
-    // const works = document.querySelectorAll(`.work${id}`);
-
-    // // Logique pour supprimer les éléments qui ont une classe qui contient l'id
-    // works.forEach((work) => work.remove());
 }
 
-function displayMsgDelete() {
-    infoMsg.textContent = "Travail supprimé avec succès !"
-    infoMsg.style.color = "green"
+// Gestion du message lors de le suppression
+function displayMsgDelete(text, color) {
+    infoMsg.textContent = text
+    infoMsg.style.color = color
     setTimeout(() => {
         infoMsg.textContent = "Supprimer la galerie"
         infoMsg.style.color = "#d65353"

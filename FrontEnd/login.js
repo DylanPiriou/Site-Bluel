@@ -20,7 +20,7 @@ function handleLogin(e){
     }
 }
 
-// Envoie des logins à l'API via POST
+// Envoie des logins à l'API via méthode POST
 function login() {
     fetch(`http://localhost:5678/api/users/login`, {
         method: "POST",
@@ -48,7 +48,6 @@ function login() {
 
 // Fonction pour la gestion des messages d'erreur/réussite
 function displayErrorMsg(txt, color){
-    email.value = "";
     password.value = "";
     error.textContent = txt;
     error.style.color = color;
