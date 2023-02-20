@@ -3,7 +3,7 @@
 const categoriesBtn = document.querySelectorAll(".filter-button");
 const gallery = document.querySelector(".gallery");
 const galleryModal = document.querySelector(".modal-work-grid");
-let arrayData = []
+let arrayData = [];
 let filteredData = [];
 
 // Logique de filtrage avec Map
@@ -13,7 +13,7 @@ function logicForCategory(selectedCategory) {
     filterMap.set("category2", "1");
     filterMap.set("category3", "2");
     filterMap.set("category4", "3");
-    getWorks(selectedCategory, filterMap)
+    getWorks(selectedCategory, filterMap);
 }
 
 // Chargement de tous les travaux au chargement de la page
