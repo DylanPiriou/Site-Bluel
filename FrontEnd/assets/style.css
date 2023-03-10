@@ -154,8 +154,6 @@ a.active {
 #portfolio h2 {
 	margin: 0 auto 1em;
 	display: inline-flex;
-	align-items: center;
-	justify-content: center;
 }
 
 #work-btn{
