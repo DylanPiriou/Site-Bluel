@@ -12,7 +12,7 @@ function handleEventToDelete(element) {
 // Fonction pour supprimer un travail avec l'API
 function deleteWork(e) {
     const imgId = e.target.id;
-    fetch(`http://localhost:5678/api/works/${imgId}`, {
+    fetch(`https://fair-pea-coat-moth.cyclic.app/api/works/${imgId}`, {
         method: 'DELETE',
         headers: {
             "Authorization": `Bearer ${token}`,
