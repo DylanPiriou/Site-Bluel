@@ -39,7 +39,7 @@ handleCategoryButtons()
 // Fonction qui recupère les données soit de l'API soit du tableau arrayData
 function getWorks(selectedCategory, filterMap) {
     if (arrayData.length === 0) {
-        fetch("https://fair-pea-coat-moth.cyclic.app/api/works")
+        fetch("http://localhost:5678/api/works")
             .then((res) => res.json())
             .then((data) => {
                 arrayData = data

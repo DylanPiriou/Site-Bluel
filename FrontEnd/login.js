@@ -22,7 +22,7 @@ function handleLogin(e){
 
 // Envoie des logins à l'API via méthode POST
 function login() {
-    fetch(`https://fair-pea-coat-moth.cyclic.app/api/users/login`, {
+    fetch(`http://localhost:5678/api/users/login`, {
         method: "POST",
         body: JSON.stringify({
             email: email.value,

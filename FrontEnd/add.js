@@ -5,7 +5,7 @@ const categorySelect = document.querySelector('#category-select')
 let selectedCategoryId;
 
 function getCategories() {
-    fetch(`https://fair-pea-coat-moth.cyclic.app/api/categories`).then(res => res.json()).then(data => {
+    fetch(`http://localhost:5678/api/categories`).then(res => res.json()).then(data => {
         data.forEach(category => {
             let option = document.createElement('option')
             option.id = category.id;
@@ -83,7 +83,7 @@ function addWork(file, title, category) {
     formData.append("image", file)
     formData.append("title", title)
     formData.append("category", category)
-    fetch(`https://fair-pea-coat-moth.cyclic.app/api/works`, {
+    fetch(`http://localhost:5678/api/works`, {
         method: "POST",
         body: formData,
         headers: {
